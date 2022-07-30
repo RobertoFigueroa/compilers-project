@@ -1,51 +1,253 @@
 grammar YAPL;
-import Lex;
 
 program
-   : (klass SEMI)+ EOF
+   : programBlocks EOF
    ;
 
-klass
-   : CLASS TYPE (INHERITS TYPE)? LBRACE (feature SEMI)* RBRACE { System.out.println("Class recognized..."); }
+programBlocks
+   : classDefine ';' programBlocks # classes
+   | EOF # eof
+   ;
+
+classDefine
+   : CLASS TYPEID (INHERITS TYPEID)? '{' (feature ';')* '}'
    ;
 
 feature
-   : ID LPAREN (formal (COMMA formal)*)* RPAREN COLON TYPE LBRACE expr RBRACE # method
-   | <assoc=right> ID COLON TYPE (ASSIGN expr)? # attr
+   : OBJECTID '(' (formal (',' formal)*)? ')' ':' TYPEID '{' expression '}' # method
+   | OBJECTID ':' TYPEID (ASSIGNMENT expression)? # property
    ;
 
 formal
-  : ID COLON TYPE
-  ;
+   : OBJECTID ':' TYPEID
+   ;
+/* method argument */
+   
+   
+expression
+   : expression ('@' TYPEID)? '.' OBJECTID '(' (expression (',' expression)*)? ')' # methodCall
+   | OBJECTID '(' (expression (',' expression)*)? ')' # ownMethodCall
+   | IF expression THEN expression ELSE expression FI # if
+   | WHILE expression LOOP expression POOL # while
+   | '{' (expression ';')+ '}' # block
+   | LET OBJECTID ':' TYPEID (ASSIGNMENT expression)? (',' OBJECTID ':' TYPEID (ASSIGNMENT expression)?)* IN expression # letIn
+   | CASE expression OF (OBJECTID ':' TYPEID CASE_ARROW expression ';')+ ESAC # case
+   | NEW TYPEID # new
+   | INTEGER_NEGATIVE expression # negative
+   | ISVOID expression # isvoid
+   | expression MULTIPLY expression # multiply
+   | expression DIVISION expression # division
+   | expression ADD expression # add
+   | expression MINUS expression # minus
+   | expression LESS_THAN expression # lessThan
+   | expression LESS_EQUAL expression # lessEqual
+   | expression EQUAL expression # equal
+   | NOT expression # boolNot
+   | '(' expression ')' # parentheses
+   | OBJECTID # id
+   | INT # int
+   | STRING # string
+   | TRUE # true
+   | FALSE # false
+   | OBJECTID ASSIGNMENT expression # assignment
+   ;
+   // key words
+   
+CLASS
+   : C L A S S
+   ;
 
-let_formal
-  : <assoc=right> ID COLON TYPE (ASSIGN expr)?
-;
+ELSE
+   : E L S E
+   ;
 
-expr
-   : ID LPAREN (expr (COMMA expr)*)* RPAREN # selfdispatch
-   | expr (AT TYPE)? PERIOD ID LPAREN (expr (COMMA expr)*)* RPAREN # dispatch
-   | IF expr THEN expr ELSE expr FI # if
-   | WHILE expr LOOP expr POOL # while
-   | LET let_formal (COMMA let_formal)* IN expr # let
-   | CASE expr OF (ID COLON TYPE DARROW expr SEMI)+ ESAC # case
-   | NEW TYPE # new
-   | NEG expr # neg
-   | ISVOID expr # isvoid
-   | LPAREN expr RPAREN # paren
-   | LBRACE (expr SEMI)+ RBRACE # block
-   | expr MUL expr # mul
-   | expr DIV expr # div
-   | expr ADD expr # add
-   | expr MINUS expr # minus
-   | expr LEQ expr # lessThanOrEqualTo
-   | expr LT expr # lessThan
-   | expr EQ expr # eq
-   | NOT expr # not
-   | <assoc=right> ID ASSIGN expr # assign
-   | ID # id
-   | INT_CONST # int_const
-   | STR_CONST # str_const
-   | TRUE # bool_true
-   | FALSE # bool_false
+FALSE
+   : 'f' A L S E
+   ;
+
+FI
+   : F I
+   ;
+
+IF
+   : I F
+   ;
+
+IN
+   : I N
+   ;
+
+INHERITS
+   : I N H E R I T S
+   ;
+
+ISVOID
+   : I S V O I D
+   ;
+
+LET
+   : L E T
+   ;
+
+LOOP
+   : L O O P
+   ;
+
+POOL
+   : P O O L
+   ;
+
+THEN
+   : T H E N
+   ;
+
+WHILE
+   : W H I L E
+   ;
+
+CASE
+   : C A S E
+   ;
+
+ESAC
+   : E S A C
+   ;
+
+NEW
+   : N E W
+   ;
+
+OF
+   : O F
+   ;
+
+NOT
+   : N O T
+   ;
+
+TRUE
+   : 't' R U E
+   ;
+   // primitives
+   
+STRING
+   : '"' (ESC | ~ ["\\])* '"'
+   ;
+INT
+   : [0-9]+
+   ;
+TYPEID
+   : [A-Z] [_0-9A-Za-z]*
+   ;
+OBJECTID
+   : [a-z] [_0-9A-Za-z]*
+   ;
+ASSIGNMENT
+   : '<-'
+   ;
+CASE_ARROW
+   : '=>'
+   ;
+ADD
+   : '+'
+   ;
+MINUS
+   : '-'
+   ;
+MULTIPLY
+   : '*'
+   ;
+DIVISION
+   : '/'
+   ;
+LESS_THAN
+   : '<'
+   ;
+LESS_EQUAL
+   : '<='
+   ;
+EQUAL
+   : '='
+   ;
+INTEGER_NEGATIVE
+   : '~'
+   ;
+fragment A
+   : [aA]
+   ;
+fragment C
+   : [cC]
+   ;
+fragment D
+   : [dD]
+   ;
+fragment E
+   : [eE]
+   ;
+fragment F
+   : [fF]
+   ;
+fragment H
+   : [hH]
+   ;
+fragment I
+   : [iI]
+   ;
+fragment L
+   : [lL]
+   ;
+fragment N
+   : [nN]
+   ;
+fragment O
+   : [oO]
+   ;
+fragment P
+   : [pP]
+   ;
+fragment R
+   : [rR]
+   ;
+fragment S
+   : [sS]
+   ;
+fragment T
+   : [tT]
+   ;
+fragment U
+   : [uU]
+   ;
+fragment V
+   : [vV]
+   ;
+fragment W
+   : [wW]
+   ;
+fragment ESC
+   : '\\' (["\\/bfnrt] | UNICODE)
+   ;
+fragment UNICODE
+   : 'u' HEX HEX HEX HEX
+   ;
+fragment HEX
+   : [0-9a-fA-F]
+   ;
+   // comments
+   
+OPEN_COMMENT
+   : '(*'
+   ;
+CLOSE_COMMENT
+   : '*)'
+   ;
+COMMENT
+   : OPEN_COMMENT (COMMENT | .)*? CLOSE_COMMENT -> skip
+   ;
+ONE_LINE_COMMENT
+   : '--' (~ '\n')* '\n'? -> skip
+   ;
+   // skip spaces, tabs, newlines, note that \v is not suppoted in antlr
+   
+WHITESPACE
+   : [ \t\r\n\f]+ -> skip
    ;

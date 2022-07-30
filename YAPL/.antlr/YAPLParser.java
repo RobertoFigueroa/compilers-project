@@ -1,4 +1,4 @@
-// Generated from /home/roberto/Desktop/UVG2022C2/COMPILERS/compilers-lab-0/YAPL/YAPL.g4 by ANTLR 4.9.2
+// Generated from /home/roberto/Desktop/UVG2022C2/COMPILERS/compilers-project/YAPL/YAPL.g4 by ANTLR 4.9.2
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -16,45 +16,42 @@ public class YAPLParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		NEWLINE=1, WS=2, LINECOMMENT=3, LINECOMMENTEOF=4, BEGINCOMMENT=5, BEGINCOMMENTNEST=6, 
-		ENDCOMMENT=7, IGNOREINCOMMENT=8, IGNOREINCOMMENTLPAREN=9, IGNOREINCOMMENTSTAR=10, 
-		IGNOREINCOMMENTNEWLINE=11, BADENDCOMMENT=12, TRUE=13, FALSE=14, CLASS=15, 
-		FI=16, IF=17, IN=18, INHERITS=19, ISVOID=20, LET=21, LOOP=22, POOL=23, 
-		THEN=24, ELSE=25, WHILE=26, CASE=27, ESAC=28, NEW=29, OF=30, NOT=31, TYPE=32, 
-		ID=33, INT_CONST=34, LPAREN=35, RPAREN=36, LBRACE=37, RBRACE=38, SEMI=39, 
-		COLON=40, ASSIGN=41, DARROW=42, NEG=43, COMMA=44, PERIOD=45, AT=46, MUL=47, 
-		ADD=48, MINUS=49, DIV=50, LT=51, LEQ=52, EQ=53, ERROR=54, STR_CONST=55;
+		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
+		CLASS=10, ELSE=11, FALSE=12, FI=13, IF=14, IN=15, INHERITS=16, ISVOID=17, 
+		LET=18, LOOP=19, POOL=20, THEN=21, WHILE=22, CASE=23, ESAC=24, NEW=25, 
+		OF=26, NOT=27, TRUE=28, STRING=29, INT=30, TYPEID=31, OBJECTID=32, ASSIGNMENT=33, 
+		CASE_ARROW=34, ADD=35, MINUS=36, MULTIPLY=37, DIVISION=38, LESS_THAN=39, 
+		LESS_EQUAL=40, EQUAL=41, INTEGER_NEGATIVE=42, OPEN_COMMENT=43, CLOSE_COMMENT=44, 
+		COMMENT=45, ONE_LINE_COMMENT=46, WHITESPACE=47;
 	public static final int
-		RULE_program = 0, RULE_klass = 1, RULE_feature = 2, RULE_formal = 3, RULE_let_formal = 4, 
-		RULE_expr = 5;
+		RULE_program = 0, RULE_programBlocks = 1, RULE_classDefine = 2, RULE_feature = 3, 
+		RULE_formal = 4, RULE_expression = 5;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"program", "klass", "feature", "formal", "let_formal", "expr"
+			"program", "programBlocks", "classDefine", "feature", "formal", "expression"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
+			null, "';'", "'{'", "'}'", "'('", "','", "')'", "':'", "'@'", "'.'", 
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, "'true'", "'false'", "'class'", "'fi'", "'if'", "'in'", "'inherits'", 
-			"'isvoid'", "'let'", "'loop'", "'pool'", "'then'", "'else'", "'while'", 
-			"'case'", "'esac'", "'new'", "'of'", "'not'", null, null, null, "'('", 
-			"')'", "'{'", "'}'", "';'", "':'", "'<-'", "'=>'", "'~'", "','", "'.'", 
-			"'@'", "'*'", "'+'", "'-'", "'/'", "'<'", "'<='", "'='"
+			null, null, null, null, null, null, null, null, null, null, null, "'<-'", 
+			"'=>'", "'+'", "'-'", "'*'", "'/'", "'<'", "'<='", "'='", "'~'", "'(*'", 
+			"'*)'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "NEWLINE", "WS", "LINECOMMENT", "LINECOMMENTEOF", "BEGINCOMMENT", 
-			"BEGINCOMMENTNEST", "ENDCOMMENT", "IGNOREINCOMMENT", "IGNOREINCOMMENTLPAREN", 
-			"IGNOREINCOMMENTSTAR", "IGNOREINCOMMENTNEWLINE", "BADENDCOMMENT", "TRUE", 
-			"FALSE", "CLASS", "FI", "IF", "IN", "INHERITS", "ISVOID", "LET", "LOOP", 
-			"POOL", "THEN", "ELSE", "WHILE", "CASE", "ESAC", "NEW", "OF", "NOT", 
-			"TYPE", "ID", "INT_CONST", "LPAREN", "RPAREN", "LBRACE", "RBRACE", "SEMI", 
-			"COLON", "ASSIGN", "DARROW", "NEG", "COMMA", "PERIOD", "AT", "MUL", "ADD", 
-			"MINUS", "DIV", "LT", "LEQ", "EQ", "ERROR", "STR_CONST"
+			null, null, null, null, null, null, null, null, null, null, "CLASS", 
+			"ELSE", "FALSE", "FI", "IF", "IN", "INHERITS", "ISVOID", "LET", "LOOP", 
+			"POOL", "THEN", "WHILE", "CASE", "ESAC", "NEW", "OF", "NOT", "TRUE", 
+			"STRING", "INT", "TYPEID", "OBJECTID", "ASSIGNMENT", "CASE_ARROW", "ADD", 
+			"MINUS", "MULTIPLY", "DIVISION", "LESS_THAN", "LESS_EQUAL", "EQUAL", 
+			"INTEGER_NEGATIVE", "OPEN_COMMENT", "CLOSE_COMMENT", "COMMENT", "ONE_LINE_COMMENT", 
+			"WHITESPACE"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -103,34 +100,16 @@ public class YAPLParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-
-	    /*
-	    YOU CAN ADD YOUR MEMBER VARIABLES AND METHODS HERE
-	    */
-
-	    public static int linenum = 0;
-	    public static boolean inComment = false;
-	    public static boolean inString = false;
-	    public static boolean initial = true;
-	    public static int nesting = 0;
-
 	public YAPLParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	public static class ProgramContext extends ParserRuleContext {
+		public ProgramBlocksContext programBlocks() {
+			return getRuleContext(ProgramBlocksContext.class,0);
+		}
 		public TerminalNode EOF() { return getToken(YAPLParser.EOF, 0); }
-		public List<KlassContext> klass() {
-			return getRuleContexts(KlassContext.class);
-		}
-		public KlassContext klass(int i) {
-			return getRuleContext(KlassContext.class,i);
-		}
-		public List<TerminalNode> SEMI() { return getTokens(YAPLParser.SEMI); }
-		public TerminalNode SEMI(int i) {
-			return getToken(YAPLParser.SEMI, i);
-		}
 		public ProgramContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -140,27 +119,12 @@ public class YAPLParser extends Parser {
 	public final ProgramContext program() throws RecognitionException {
 		ProgramContext _localctx = new ProgramContext(_ctx, getState());
 		enterRule(_localctx, 0, RULE_program);
-		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(15); 
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			do {
-				{
-				{
-				setState(12);
-				klass();
-				setState(13);
-				match(SEMI);
-				}
-				}
-				setState(17); 
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			} while ( _la==CLASS );
-			setState(19);
+			setState(12);
+			programBlocks();
+			setState(13);
 			match(EOF);
 			}
 		}
@@ -175,14 +139,79 @@ public class YAPLParser extends Parser {
 		return _localctx;
 	}
 
-	public static class KlassContext extends ParserRuleContext {
-		public TerminalNode CLASS() { return getToken(YAPLParser.CLASS, 0); }
-		public List<TerminalNode> TYPE() { return getTokens(YAPLParser.TYPE); }
-		public TerminalNode TYPE(int i) {
-			return getToken(YAPLParser.TYPE, i);
+	public static class ProgramBlocksContext extends ParserRuleContext {
+		public ProgramBlocksContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
 		}
-		public TerminalNode LBRACE() { return getToken(YAPLParser.LBRACE, 0); }
-		public TerminalNode RBRACE() { return getToken(YAPLParser.RBRACE, 0); }
+		@Override public int getRuleIndex() { return RULE_programBlocks; }
+	 
+		public ProgramBlocksContext() { }
+		public void copyFrom(ProgramBlocksContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class ClassesContext extends ProgramBlocksContext {
+		public ClassDefineContext classDefine() {
+			return getRuleContext(ClassDefineContext.class,0);
+		}
+		public ProgramBlocksContext programBlocks() {
+			return getRuleContext(ProgramBlocksContext.class,0);
+		}
+		public ClassesContext(ProgramBlocksContext ctx) { copyFrom(ctx); }
+	}
+	public static class EofContext extends ProgramBlocksContext {
+		public TerminalNode EOF() { return getToken(YAPLParser.EOF, 0); }
+		public EofContext(ProgramBlocksContext ctx) { copyFrom(ctx); }
+	}
+
+	public final ProgramBlocksContext programBlocks() throws RecognitionException {
+		ProgramBlocksContext _localctx = new ProgramBlocksContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_programBlocks);
+		try {
+			setState(20);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case CLASS:
+				_localctx = new ClassesContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(15);
+				classDefine();
+				setState(16);
+				match(T__0);
+				setState(17);
+				programBlocks();
+				}
+				break;
+			case EOF:
+				_localctx = new EofContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(19);
+				match(EOF);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ClassDefineContext extends ParserRuleContext {
+		public TerminalNode CLASS() { return getToken(YAPLParser.CLASS, 0); }
+		public List<TerminalNode> TYPEID() { return getTokens(YAPLParser.TYPEID); }
+		public TerminalNode TYPEID(int i) {
+			return getToken(YAPLParser.TYPEID, i);
+		}
 		public TerminalNode INHERITS() { return getToken(YAPLParser.INHERITS, 0); }
 		public List<FeatureContext> feature() {
 			return getRuleContexts(FeatureContext.class);
@@ -190,60 +219,55 @@ public class YAPLParser extends Parser {
 		public FeatureContext feature(int i) {
 			return getRuleContext(FeatureContext.class,i);
 		}
-		public List<TerminalNode> SEMI() { return getTokens(YAPLParser.SEMI); }
-		public TerminalNode SEMI(int i) {
-			return getToken(YAPLParser.SEMI, i);
-		}
-		public KlassContext(ParserRuleContext parent, int invokingState) {
+		public ClassDefineContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_klass; }
+		@Override public int getRuleIndex() { return RULE_classDefine; }
 	}
 
-	public final KlassContext klass() throws RecognitionException {
-		KlassContext _localctx = new KlassContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_klass);
+	public final ClassDefineContext classDefine() throws RecognitionException {
+		ClassDefineContext _localctx = new ClassDefineContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_classDefine);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(21);
-			match(CLASS);
 			setState(22);
-			match(TYPE);
-			setState(25);
+			match(CLASS);
+			setState(23);
+			match(TYPEID);
+			setState(26);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==INHERITS) {
 				{
-				setState(23);
-				match(INHERITS);
 				setState(24);
-				match(TYPE);
+				match(INHERITS);
+				setState(25);
+				match(TYPEID);
 				}
 			}
 
-			setState(27);
-			match(LBRACE);
-			setState(33);
+			setState(28);
+			match(T__1);
+			setState(34);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==ID) {
+			while (_la==OBJECTID) {
 				{
 				{
-				setState(28);
-				feature();
 				setState(29);
-				match(SEMI);
+				feature();
+				setState(30);
+				match(T__0);
 				}
 				}
-				setState(35);
+				setState(36);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(36);
-			match(RBRACE);
-			 System.out.println("Class recognized..."); 
+			setState(37);
+			match(T__2);
 			}
 		}
 		catch (RecognitionException re) {
@@ -269,45 +293,35 @@ public class YAPLParser extends Parser {
 		}
 	}
 	public static class MethodContext extends FeatureContext {
-		public TerminalNode ID() { return getToken(YAPLParser.ID, 0); }
-		public TerminalNode LPAREN() { return getToken(YAPLParser.LPAREN, 0); }
-		public TerminalNode RPAREN() { return getToken(YAPLParser.RPAREN, 0); }
-		public TerminalNode COLON() { return getToken(YAPLParser.COLON, 0); }
-		public TerminalNode TYPE() { return getToken(YAPLParser.TYPE, 0); }
-		public TerminalNode LBRACE() { return getToken(YAPLParser.LBRACE, 0); }
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
+		public TerminalNode OBJECTID() { return getToken(YAPLParser.OBJECTID, 0); }
+		public TerminalNode TYPEID() { return getToken(YAPLParser.TYPEID, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode RBRACE() { return getToken(YAPLParser.RBRACE, 0); }
 		public List<FormalContext> formal() {
 			return getRuleContexts(FormalContext.class);
 		}
 		public FormalContext formal(int i) {
 			return getRuleContext(FormalContext.class,i);
 		}
-		public List<TerminalNode> COMMA() { return getTokens(YAPLParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(YAPLParser.COMMA, i);
-		}
 		public MethodContext(FeatureContext ctx) { copyFrom(ctx); }
 	}
-	public static class AttrContext extends FeatureContext {
-		public TerminalNode ID() { return getToken(YAPLParser.ID, 0); }
-		public TerminalNode COLON() { return getToken(YAPLParser.COLON, 0); }
-		public TerminalNode TYPE() { return getToken(YAPLParser.TYPE, 0); }
-		public TerminalNode ASSIGN() { return getToken(YAPLParser.ASSIGN, 0); }
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
+	public static class PropertyContext extends FeatureContext {
+		public TerminalNode OBJECTID() { return getToken(YAPLParser.OBJECTID, 0); }
+		public TerminalNode TYPEID() { return getToken(YAPLParser.TYPEID, 0); }
+		public TerminalNode ASSIGNMENT() { return getToken(YAPLParser.ASSIGNMENT, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
 		}
-		public AttrContext(FeatureContext ctx) { copyFrom(ctx); }
+		public PropertyContext(FeatureContext ctx) { copyFrom(ctx); }
 	}
 
 	public final FeatureContext feature() throws RecognitionException {
 		FeatureContext _localctx = new FeatureContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_feature);
+		enterRule(_localctx, 6, RULE_feature);
 		int _la;
 		try {
-			setState(68);
+			setState(65);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
 			case 1:
@@ -315,25 +329,24 @@ public class YAPLParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(39);
-				match(ID);
+				match(OBJECTID);
 				setState(40);
-				match(LPAREN);
-				setState(51);
+				match(T__3);
+				setState(49);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while (_la==ID) {
-					{
+				if (_la==OBJECTID) {
 					{
 					setState(41);
 					formal();
 					setState(46);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
-					while (_la==COMMA) {
+					while (_la==T__4) {
 						{
 						{
 						setState(42);
-						match(COMMA);
+						match(T__4);
 						setState(43);
 						formal();
 						}
@@ -343,44 +356,41 @@ public class YAPLParser extends Parser {
 						_la = _input.LA(1);
 					}
 					}
-					}
-					setState(53);
-					_errHandler.sync(this);
-					_la = _input.LA(1);
 				}
+
+				setState(51);
+				match(T__5);
+				setState(52);
+				match(T__6);
+				setState(53);
+				match(TYPEID);
 				setState(54);
-				match(RPAREN);
+				match(T__1);
 				setState(55);
-				match(COLON);
+				expression(0);
 				setState(56);
-				match(TYPE);
-				setState(57);
-				match(LBRACE);
-				setState(58);
-				expr(0);
-				setState(59);
-				match(RBRACE);
+				match(T__2);
 				}
 				break;
 			case 2:
-				_localctx = new AttrContext(_localctx);
+				_localctx = new PropertyContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(61);
-				match(ID);
-				setState(62);
-				match(COLON);
+				setState(58);
+				match(OBJECTID);
+				setState(59);
+				match(T__6);
+				setState(60);
+				match(TYPEID);
 				setState(63);
-				match(TYPE);
-				setState(66);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if (_la==ASSIGN) {
+				if (_la==ASSIGNMENT) {
 					{
-					setState(64);
-					match(ASSIGN);
-					setState(65);
-					expr(0);
+					setState(61);
+					match(ASSIGNMENT);
+					setState(62);
+					expression(0);
 					}
 				}
 
@@ -400,9 +410,8 @@ public class YAPLParser extends Parser {
 	}
 
 	public static class FormalContext extends ParserRuleContext {
-		public TerminalNode ID() { return getToken(YAPLParser.ID, 0); }
-		public TerminalNode COLON() { return getToken(YAPLParser.COLON, 0); }
-		public TerminalNode TYPE() { return getToken(YAPLParser.TYPE, 0); }
+		public TerminalNode OBJECTID() { return getToken(YAPLParser.OBJECTID, 0); }
+		public TerminalNode TYPEID() { return getToken(YAPLParser.TYPEID, 0); }
 		public FormalContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -411,16 +420,16 @@ public class YAPLParser extends Parser {
 
 	public final FormalContext formal() throws RecognitionException {
 		FormalContext _localctx = new FormalContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_formal);
+		enterRule(_localctx, 8, RULE_formal);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(70);
-			match(ID);
-			setState(71);
-			match(COLON);
-			setState(72);
-			match(TYPE);
+			setState(67);
+			match(OBJECTID);
+			setState(68);
+			match(T__6);
+			setState(69);
+			match(TYPEID);
 			}
 		}
 		catch (RecognitionException re) {
@@ -434,388 +443,307 @@ public class YAPLParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Let_formalContext extends ParserRuleContext {
-		public TerminalNode ID() { return getToken(YAPLParser.ID, 0); }
-		public TerminalNode COLON() { return getToken(YAPLParser.COLON, 0); }
-		public TerminalNode TYPE() { return getToken(YAPLParser.TYPE, 0); }
-		public TerminalNode ASSIGN() { return getToken(YAPLParser.ASSIGN, 0); }
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
-		}
-		public Let_formalContext(ParserRuleContext parent, int invokingState) {
+	public static class ExpressionContext extends ParserRuleContext {
+		public ExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_let_formal; }
-	}
-
-	public final Let_formalContext let_formal() throws RecognitionException {
-		Let_formalContext _localctx = new Let_formalContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_let_formal);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(74);
-			match(ID);
-			setState(75);
-			match(COLON);
-			setState(76);
-			match(TYPE);
-			setState(79);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==ASSIGN) {
-				{
-				setState(77);
-				match(ASSIGN);
-				setState(78);
-				expr(0);
-				}
-			}
-
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class ExprContext extends ParserRuleContext {
-		public ExprContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_expr; }
+		@Override public int getRuleIndex() { return RULE_expression; }
 	 
-		public ExprContext() { }
-		public void copyFrom(ExprContext ctx) {
+		public ExpressionContext() { }
+		public void copyFrom(ExpressionContext ctx) {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class MinusContext extends ExprContext {
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
+	public static class LetInContext extends ExpressionContext {
+		public TerminalNode LET() { return getToken(YAPLParser.LET, 0); }
+		public List<TerminalNode> OBJECTID() { return getTokens(YAPLParser.OBJECTID); }
+		public TerminalNode OBJECTID(int i) {
+			return getToken(YAPLParser.OBJECTID, i);
 		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
+		public List<TerminalNode> TYPEID() { return getTokens(YAPLParser.TYPEID); }
+		public TerminalNode TYPEID(int i) {
+			return getToken(YAPLParser.TYPEID, i);
+		}
+		public TerminalNode IN() { return getToken(YAPLParser.IN, 0); }
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public List<TerminalNode> ASSIGNMENT() { return getTokens(YAPLParser.ASSIGNMENT); }
+		public TerminalNode ASSIGNMENT(int i) {
+			return getToken(YAPLParser.ASSIGNMENT, i);
+		}
+		public LetInContext(ExpressionContext ctx) { copyFrom(ctx); }
+	}
+	public static class MinusContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
 		}
 		public TerminalNode MINUS() { return getToken(YAPLParser.MINUS, 0); }
-		public MinusContext(ExprContext ctx) { copyFrom(ctx); }
+		public MinusContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
-	public static class DispatchContext extends ExprContext {
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
-		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
-		}
-		public TerminalNode PERIOD() { return getToken(YAPLParser.PERIOD, 0); }
-		public TerminalNode ID() { return getToken(YAPLParser.ID, 0); }
-		public TerminalNode LPAREN() { return getToken(YAPLParser.LPAREN, 0); }
-		public TerminalNode RPAREN() { return getToken(YAPLParser.RPAREN, 0); }
-		public TerminalNode AT() { return getToken(YAPLParser.AT, 0); }
-		public TerminalNode TYPE() { return getToken(YAPLParser.TYPE, 0); }
-		public List<TerminalNode> COMMA() { return getTokens(YAPLParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(YAPLParser.COMMA, i);
-		}
-		public DispatchContext(ExprContext ctx) { copyFrom(ctx); }
+	public static class StringContext extends ExpressionContext {
+		public TerminalNode STRING() { return getToken(YAPLParser.STRING, 0); }
+		public StringContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
-	public static class Str_constContext extends ExprContext {
-		public TerminalNode STR_CONST() { return getToken(YAPLParser.STR_CONST, 0); }
-		public Str_constContext(ExprContext ctx) { copyFrom(ctx); }
-	}
-	public static class MulContext extends ExprContext {
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
-		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
-		}
-		public TerminalNode MUL() { return getToken(YAPLParser.MUL, 0); }
-		public MulContext(ExprContext ctx) { copyFrom(ctx); }
-	}
-	public static class IsvoidContext extends ExprContext {
+	public static class IsvoidContext extends ExpressionContext {
 		public TerminalNode ISVOID() { return getToken(YAPLParser.ISVOID, 0); }
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
 		}
-		public IsvoidContext(ExprContext ctx) { copyFrom(ctx); }
+		public IsvoidContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
-	public static class SelfdispatchContext extends ExprContext {
-		public TerminalNode ID() { return getToken(YAPLParser.ID, 0); }
-		public TerminalNode LPAREN() { return getToken(YAPLParser.LPAREN, 0); }
-		public TerminalNode RPAREN() { return getToken(YAPLParser.RPAREN, 0); }
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
-		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
-		}
-		public List<TerminalNode> COMMA() { return getTokens(YAPLParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(YAPLParser.COMMA, i);
-		}
-		public SelfdispatchContext(ExprContext ctx) { copyFrom(ctx); }
-	}
-	public static class WhileContext extends ExprContext {
+	public static class WhileContext extends ExpressionContext {
 		public TerminalNode WHILE() { return getToken(YAPLParser.WHILE, 0); }
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
 		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
 		}
 		public TerminalNode LOOP() { return getToken(YAPLParser.LOOP, 0); }
 		public TerminalNode POOL() { return getToken(YAPLParser.POOL, 0); }
-		public WhileContext(ExprContext ctx) { copyFrom(ctx); }
+		public WhileContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
-	public static class DivContext extends ExprContext {
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
+	public static class DivisionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
 		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode DIV() { return getToken(YAPLParser.DIV, 0); }
-		public DivContext(ExprContext ctx) { copyFrom(ctx); }
+		public TerminalNode DIVISION() { return getToken(YAPLParser.DIVISION, 0); }
+		public DivisionContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
-	public static class NegContext extends ExprContext {
-		public TerminalNode NEG() { return getToken(YAPLParser.NEG, 0); }
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
+	public static class NegativeContext extends ExpressionContext {
+		public TerminalNode INTEGER_NEGATIVE() { return getToken(YAPLParser.INTEGER_NEGATIVE, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
 		}
-		public NegContext(ExprContext ctx) { copyFrom(ctx); }
+		public NegativeContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
-	public static class ParenContext extends ExprContext {
-		public TerminalNode LPAREN() { return getToken(YAPLParser.LPAREN, 0); }
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
-		}
-		public TerminalNode RPAREN() { return getToken(YAPLParser.RPAREN, 0); }
-		public ParenContext(ExprContext ctx) { copyFrom(ctx); }
-	}
-	public static class NotContext extends ExprContext {
+	public static class BoolNotContext extends ExpressionContext {
 		public TerminalNode NOT() { return getToken(YAPLParser.NOT, 0); }
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
 		}
-		public NotContext(ExprContext ctx) { copyFrom(ctx); }
+		public BoolNotContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
-	public static class LessThanContext extends ExprContext {
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
+	public static class LessThanContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
 		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode LT() { return getToken(YAPLParser.LT, 0); }
-		public LessThanContext(ExprContext ctx) { copyFrom(ctx); }
+		public TerminalNode LESS_THAN() { return getToken(YAPLParser.LESS_THAN, 0); }
+		public LessThanContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
-	public static class LetContext extends ExprContext {
-		public TerminalNode LET() { return getToken(YAPLParser.LET, 0); }
-		public List<Let_formalContext> let_formal() {
-			return getRuleContexts(Let_formalContext.class);
+	public static class BlockContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
 		}
-		public Let_formalContext let_formal(int i) {
-			return getRuleContext(Let_formalContext.class,i);
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode IN() { return getToken(YAPLParser.IN, 0); }
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
-		}
-		public List<TerminalNode> COMMA() { return getTokens(YAPLParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(YAPLParser.COMMA, i);
-		}
-		public LetContext(ExprContext ctx) { copyFrom(ctx); }
+		public BlockContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
-	public static class BlockContext extends ExprContext {
-		public TerminalNode LBRACE() { return getToken(YAPLParser.LBRACE, 0); }
-		public TerminalNode RBRACE() { return getToken(YAPLParser.RBRACE, 0); }
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
-		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
-		}
-		public List<TerminalNode> SEMI() { return getTokens(YAPLParser.SEMI); }
-		public TerminalNode SEMI(int i) {
-			return getToken(YAPLParser.SEMI, i);
-		}
-		public BlockContext(ExprContext ctx) { copyFrom(ctx); }
+	public static class IdContext extends ExpressionContext {
+		public TerminalNode OBJECTID() { return getToken(YAPLParser.OBJECTID, 0); }
+		public IdContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
-	public static class IdContext extends ExprContext {
-		public TerminalNode ID() { return getToken(YAPLParser.ID, 0); }
-		public IdContext(ExprContext ctx) { copyFrom(ctx); }
+	public static class MultiplyContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode MULTIPLY() { return getToken(YAPLParser.MULTIPLY, 0); }
+		public MultiplyContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
-	public static class IfContext extends ExprContext {
+	public static class IfContext extends ExpressionContext {
 		public TerminalNode IF() { return getToken(YAPLParser.IF, 0); }
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
 		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
 		}
 		public TerminalNode THEN() { return getToken(YAPLParser.THEN, 0); }
 		public TerminalNode ELSE() { return getToken(YAPLParser.ELSE, 0); }
 		public TerminalNode FI() { return getToken(YAPLParser.FI, 0); }
-		public IfContext(ExprContext ctx) { copyFrom(ctx); }
+		public IfContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
-	public static class CaseContext extends ExprContext {
+	public static class CaseContext extends ExpressionContext {
 		public TerminalNode CASE() { return getToken(YAPLParser.CASE, 0); }
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
 		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
 		}
 		public TerminalNode OF() { return getToken(YAPLParser.OF, 0); }
 		public TerminalNode ESAC() { return getToken(YAPLParser.ESAC, 0); }
-		public List<TerminalNode> ID() { return getTokens(YAPLParser.ID); }
-		public TerminalNode ID(int i) {
-			return getToken(YAPLParser.ID, i);
+		public List<TerminalNode> OBJECTID() { return getTokens(YAPLParser.OBJECTID); }
+		public TerminalNode OBJECTID(int i) {
+			return getToken(YAPLParser.OBJECTID, i);
 		}
-		public List<TerminalNode> COLON() { return getTokens(YAPLParser.COLON); }
-		public TerminalNode COLON(int i) {
-			return getToken(YAPLParser.COLON, i);
+		public List<TerminalNode> TYPEID() { return getTokens(YAPLParser.TYPEID); }
+		public TerminalNode TYPEID(int i) {
+			return getToken(YAPLParser.TYPEID, i);
 		}
-		public List<TerminalNode> TYPE() { return getTokens(YAPLParser.TYPE); }
-		public TerminalNode TYPE(int i) {
-			return getToken(YAPLParser.TYPE, i);
+		public List<TerminalNode> CASE_ARROW() { return getTokens(YAPLParser.CASE_ARROW); }
+		public TerminalNode CASE_ARROW(int i) {
+			return getToken(YAPLParser.CASE_ARROW, i);
 		}
-		public List<TerminalNode> DARROW() { return getTokens(YAPLParser.DARROW); }
-		public TerminalNode DARROW(int i) {
-			return getToken(YAPLParser.DARROW, i);
-		}
-		public List<TerminalNode> SEMI() { return getTokens(YAPLParser.SEMI); }
-		public TerminalNode SEMI(int i) {
-			return getToken(YAPLParser.SEMI, i);
-		}
-		public CaseContext(ExprContext ctx) { copyFrom(ctx); }
+		public CaseContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
-	public static class LessThanOrEqualToContext extends ExprContext {
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
+	public static class OwnMethodCallContext extends ExpressionContext {
+		public TerminalNode OBJECTID() { return getToken(YAPLParser.OBJECTID, 0); }
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
 		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode LEQ() { return getToken(YAPLParser.LEQ, 0); }
-		public LessThanOrEqualToContext(ExprContext ctx) { copyFrom(ctx); }
+		public OwnMethodCallContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
-	public static class AddContext extends ExprContext {
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
+	public static class AddContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
 		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
 		}
 		public TerminalNode ADD() { return getToken(YAPLParser.ADD, 0); }
-		public AddContext(ExprContext ctx) { copyFrom(ctx); }
+		public AddContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
-	public static class NewContext extends ExprContext {
+	public static class NewContext extends ExpressionContext {
 		public TerminalNode NEW() { return getToken(YAPLParser.NEW, 0); }
-		public TerminalNode TYPE() { return getToken(YAPLParser.TYPE, 0); }
-		public NewContext(ExprContext ctx) { copyFrom(ctx); }
+		public TerminalNode TYPEID() { return getToken(YAPLParser.TYPEID, 0); }
+		public NewContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
-	public static class Bool_trueContext extends ExprContext {
-		public TerminalNode TRUE() { return getToken(YAPLParser.TRUE, 0); }
-		public Bool_trueContext(ExprContext ctx) { copyFrom(ctx); }
-	}
-	public static class EqContext extends ExprContext {
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
+	public static class ParenthesesContext extends ExpressionContext {
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
 		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
+		public ParenthesesContext(ExpressionContext ctx) { copyFrom(ctx); }
+	}
+	public static class AssignmentContext extends ExpressionContext {
+		public TerminalNode OBJECTID() { return getToken(YAPLParser.OBJECTID, 0); }
+		public TerminalNode ASSIGNMENT() { return getToken(YAPLParser.ASSIGNMENT, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode EQ() { return getToken(YAPLParser.EQ, 0); }
-		public EqContext(ExprContext ctx) { copyFrom(ctx); }
+		public AssignmentContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
-	public static class Int_constContext extends ExprContext {
-		public TerminalNode INT_CONST() { return getToken(YAPLParser.INT_CONST, 0); }
-		public Int_constContext(ExprContext ctx) { copyFrom(ctx); }
-	}
-	public static class Bool_falseContext extends ExprContext {
+	public static class FalseContext extends ExpressionContext {
 		public TerminalNode FALSE() { return getToken(YAPLParser.FALSE, 0); }
-		public Bool_falseContext(ExprContext ctx) { copyFrom(ctx); }
+		public FalseContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
-	public static class AssignContext extends ExprContext {
-		public TerminalNode ID() { return getToken(YAPLParser.ID, 0); }
-		public TerminalNode ASSIGN() { return getToken(YAPLParser.ASSIGN, 0); }
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
+	public static class IntContext extends ExpressionContext {
+		public TerminalNode INT() { return getToken(YAPLParser.INT, 0); }
+		public IntContext(ExpressionContext ctx) { copyFrom(ctx); }
+	}
+	public static class EqualContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
 		}
-		public AssignContext(ExprContext ctx) { copyFrom(ctx); }
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode EQUAL() { return getToken(YAPLParser.EQUAL, 0); }
+		public EqualContext(ExpressionContext ctx) { copyFrom(ctx); }
+	}
+	public static class TrueContext extends ExpressionContext {
+		public TerminalNode TRUE() { return getToken(YAPLParser.TRUE, 0); }
+		public TrueContext(ExpressionContext ctx) { copyFrom(ctx); }
+	}
+	public static class LessEqualContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode LESS_EQUAL() { return getToken(YAPLParser.LESS_EQUAL, 0); }
+		public LessEqualContext(ExpressionContext ctx) { copyFrom(ctx); }
+	}
+	public static class MethodCallContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode OBJECTID() { return getToken(YAPLParser.OBJECTID, 0); }
+		public TerminalNode TYPEID() { return getToken(YAPLParser.TYPEID, 0); }
+		public MethodCallContext(ExpressionContext ctx) { copyFrom(ctx); }
 	}
 
-	public final ExprContext expr() throws RecognitionException {
-		return expr(0);
+	public final ExpressionContext expression() throws RecognitionException {
+		return expression(0);
 	}
 
-	private ExprContext expr(int _p) throws RecognitionException {
+	private ExpressionContext expression(int _p) throws RecognitionException {
 		ParserRuleContext _parentctx = _ctx;
 		int _parentState = getState();
-		ExprContext _localctx = new ExprContext(_ctx, _parentState);
-		ExprContext _prevctx = _localctx;
+		ExpressionContext _localctx = new ExpressionContext(_ctx, _parentState);
+		ExpressionContext _prevctx = _localctx;
 		int _startState = 10;
-		enterRecursionRule(_localctx, 10, RULE_expr, _p);
+		enterRecursionRule(_localctx, 10, RULE_expression, _p);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(170);
+			setState(168);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,14,_ctx) ) {
 			case 1:
 				{
-				_localctx = new SelfdispatchContext(_localctx);
+				_localctx = new OwnMethodCallContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
+				setState(72);
+				match(OBJECTID);
+				setState(73);
+				match(T__3);
 				setState(82);
-				match(ID);
-				setState(83);
-				match(LPAREN);
-				setState(94);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << TRUE) | (1L << FALSE) | (1L << IF) | (1L << ISVOID) | (1L << LET) | (1L << WHILE) | (1L << CASE) | (1L << NEW) | (1L << NOT) | (1L << ID) | (1L << INT_CONST) | (1L << LPAREN) | (1L << LBRACE) | (1L << NEG) | (1L << STR_CONST))) != 0)) {
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__3) | (1L << FALSE) | (1L << IF) | (1L << ISVOID) | (1L << LET) | (1L << WHILE) | (1L << CASE) | (1L << NEW) | (1L << NOT) | (1L << TRUE) | (1L << STRING) | (1L << INT) | (1L << OBJECTID) | (1L << INTEGER_NEGATIVE))) != 0)) {
 					{
-					{
-					setState(84);
-					expr(0);
-					setState(89);
+					setState(74);
+					expression(0);
+					setState(79);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
-					while (_la==COMMA) {
+					while (_la==T__4) {
 						{
 						{
-						setState(85);
-						match(COMMA);
-						setState(86);
-						expr(0);
+						setState(75);
+						match(T__4);
+						setState(76);
+						expression(0);
 						}
 						}
-						setState(91);
+						setState(81);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
 					}
 					}
-					}
-					setState(96);
-					_errHandler.sync(this);
-					_la = _input.LA(1);
 				}
-				setState(97);
-				match(RPAREN);
+
+				setState(84);
+				match(T__5);
 				}
 				break;
 			case 2:
@@ -823,19 +751,19 @@ public class YAPLParser extends Parser {
 				_localctx = new IfContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(98);
+				setState(85);
 				match(IF);
-				setState(99);
-				expr(0);
-				setState(100);
+				setState(86);
+				expression(0);
+				setState(87);
 				match(THEN);
-				setState(101);
-				expr(0);
-				setState(102);
+				setState(88);
+				expression(0);
+				setState(89);
 				match(ELSE);
-				setState(103);
-				expr(0);
-				setState(104);
+				setState(90);
+				expression(0);
+				setState(91);
 				match(FI);
 				}
 				break;
@@ -844,391 +772,419 @@ public class YAPLParser extends Parser {
 				_localctx = new WhileContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(106);
+				setState(93);
 				match(WHILE);
-				setState(107);
-				expr(0);
-				setState(108);
+				setState(94);
+				expression(0);
+				setState(95);
 				match(LOOP);
-				setState(109);
-				expr(0);
-				setState(110);
+				setState(96);
+				expression(0);
+				setState(97);
 				match(POOL);
 				}
 				break;
 			case 4:
 				{
-				_localctx = new LetContext(_localctx);
+				_localctx = new BlockContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(112);
-				match(LET);
-				setState(113);
-				let_formal();
-				setState(118);
+				setState(99);
+				match(T__1);
+				setState(103); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while (_la==COMMA) {
+				do {
 					{
 					{
-					setState(114);
-					match(COMMA);
-					setState(115);
-					let_formal();
+					setState(100);
+					expression(0);
+					setState(101);
+					match(T__0);
 					}
 					}
-					setState(120);
+					setState(105); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
-				}
-				setState(121);
-				match(IN);
-				setState(122);
-				expr(21);
+				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__3) | (1L << FALSE) | (1L << IF) | (1L << ISVOID) | (1L << LET) | (1L << WHILE) | (1L << CASE) | (1L << NEW) | (1L << NOT) | (1L << TRUE) | (1L << STRING) | (1L << INT) | (1L << OBJECTID) | (1L << INTEGER_NEGATIVE))) != 0) );
+				setState(107);
+				match(T__2);
 				}
 				break;
 			case 5:
 				{
-				_localctx = new CaseContext(_localctx);
+				_localctx = new LetInContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(124);
-				match(CASE);
-				setState(125);
-				expr(0);
-				setState(126);
-				match(OF);
-				setState(134); 
+				setState(109);
+				match(LET);
+				setState(110);
+				match(OBJECTID);
+				setState(111);
+				match(T__6);
+				setState(112);
+				match(TYPEID);
+				setState(115);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				do {
+				if (_la==ASSIGNMENT) {
+					{
+					setState(113);
+					match(ASSIGNMENT);
+					setState(114);
+					expression(0);
+					}
+				}
+
+				setState(127);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==T__4) {
 					{
 					{
-					setState(127);
-					match(ID);
-					setState(128);
-					match(COLON);
-					setState(129);
-					match(TYPE);
-					setState(130);
-					match(DARROW);
-					setState(131);
-					expr(0);
-					setState(132);
-					match(SEMI);
-					}
-					}
-					setState(136); 
+					setState(117);
+					match(T__4);
+					setState(118);
+					match(OBJECTID);
+					setState(119);
+					match(T__6);
+					setState(120);
+					match(TYPEID);
+					setState(123);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
-				} while ( _la==ID );
-				setState(138);
-				match(ESAC);
+					if (_la==ASSIGNMENT) {
+						{
+						setState(121);
+						match(ASSIGNMENT);
+						setState(122);
+						expression(0);
+						}
+					}
+
+					}
+					}
+					setState(129);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				setState(130);
+				match(IN);
+				setState(131);
+				expression(20);
 				}
 				break;
 			case 6:
 				{
-				_localctx = new NewContext(_localctx);
+				_localctx = new CaseContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(140);
-				match(NEW);
-				setState(141);
-				match(TYPE);
-				}
-				break;
-			case 7:
-				{
-				_localctx = new NegContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-				setState(142);
-				match(NEG);
-				setState(143);
-				expr(18);
-				}
-				break;
-			case 8:
-				{
-				_localctx = new IsvoidContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-				setState(144);
-				match(ISVOID);
-				setState(145);
-				expr(17);
-				}
-				break;
-			case 9:
-				{
-				_localctx = new ParenContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-				setState(146);
-				match(LPAREN);
-				setState(147);
-				expr(0);
-				setState(148);
-				match(RPAREN);
-				}
-				break;
-			case 10:
-				{
-				_localctx = new BlockContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-				setState(150);
-				match(LBRACE);
-				setState(154); 
+				setState(132);
+				match(CASE);
+				setState(133);
+				expression(0);
+				setState(134);
+				match(OF);
+				setState(142); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(151);
-					expr(0);
-					setState(152);
-					match(SEMI);
+					setState(135);
+					match(OBJECTID);
+					setState(136);
+					match(T__6);
+					setState(137);
+					match(TYPEID);
+					setState(138);
+					match(CASE_ARROW);
+					setState(139);
+					expression(0);
+					setState(140);
+					match(T__0);
 					}
 					}
-					setState(156); 
+					setState(144); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
-				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << TRUE) | (1L << FALSE) | (1L << IF) | (1L << ISVOID) | (1L << LET) | (1L << WHILE) | (1L << CASE) | (1L << NEW) | (1L << NOT) | (1L << ID) | (1L << INT_CONST) | (1L << LPAREN) | (1L << LBRACE) | (1L << NEG) | (1L << STR_CONST))) != 0) );
-				setState(158);
-				match(RBRACE);
+				} while ( _la==OBJECTID );
+				setState(146);
+				match(ESAC);
+				}
+				break;
+			case 7:
+				{
+				_localctx = new NewContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(148);
+				match(NEW);
+				setState(149);
+				match(TYPEID);
+				}
+				break;
+			case 8:
+				{
+				_localctx = new NegativeContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(150);
+				match(INTEGER_NEGATIVE);
+				setState(151);
+				expression(17);
+				}
+				break;
+			case 9:
+				{
+				_localctx = new IsvoidContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(152);
+				match(ISVOID);
+				setState(153);
+				expression(16);
+				}
+				break;
+			case 10:
+				{
+				_localctx = new BoolNotContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(154);
+				match(NOT);
+				setState(155);
+				expression(8);
 				}
 				break;
 			case 11:
 				{
-				_localctx = new NotContext(_localctx);
+				_localctx = new ParenthesesContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(160);
-				match(NOT);
-				setState(161);
-				expr(7);
+				setState(156);
+				match(T__3);
+				setState(157);
+				expression(0);
+				setState(158);
+				match(T__5);
 				}
 				break;
 			case 12:
 				{
-				_localctx = new AssignContext(_localctx);
+				_localctx = new IdContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(162);
-				match(ID);
-				setState(163);
-				match(ASSIGN);
-				setState(164);
-				expr(6);
+				setState(160);
+				match(OBJECTID);
 				}
 				break;
 			case 13:
 				{
-				_localctx = new IdContext(_localctx);
+				_localctx = new IntContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(165);
-				match(ID);
+				setState(161);
+				match(INT);
 				}
 				break;
 			case 14:
 				{
-				_localctx = new Int_constContext(_localctx);
+				_localctx = new StringContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(166);
-				match(INT_CONST);
+				setState(162);
+				match(STRING);
 				}
 				break;
 			case 15:
 				{
-				_localctx = new Str_constContext(_localctx);
+				_localctx = new TrueContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(167);
-				match(STR_CONST);
+				setState(163);
+				match(TRUE);
 				}
 				break;
 			case 16:
 				{
-				_localctx = new Bool_trueContext(_localctx);
+				_localctx = new FalseContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(168);
-				match(TRUE);
+				setState(164);
+				match(FALSE);
 				}
 				break;
 			case 17:
 				{
-				_localctx = new Bool_falseContext(_localctx);
+				_localctx = new AssignmentContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(169);
-				match(FALSE);
+				setState(165);
+				match(OBJECTID);
+				setState(166);
+				match(ASSIGNMENT);
+				setState(167);
+				expression(1);
 				}
 				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(217);
+			setState(212);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(215);
+					setState(210);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,17,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,18,_ctx) ) {
 					case 1:
 						{
-						_localctx = new MulContext(new ExprContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						_localctx = new MultiplyContext(new ExpressionContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expression);
+						setState(170);
+						if (!(precpred(_ctx, 15))) throw new FailedPredicateException(this, "precpred(_ctx, 15)");
+						setState(171);
+						match(MULTIPLY);
 						setState(172);
-						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
-						setState(173);
-						match(MUL);
-						setState(174);
-						expr(15);
+						expression(16);
 						}
 						break;
 					case 2:
 						{
-						_localctx = new DivContext(new ExprContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						_localctx = new DivisionContext(new ExpressionContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expression);
+						setState(173);
+						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
+						setState(174);
+						match(DIVISION);
 						setState(175);
-						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
-						setState(176);
-						match(DIV);
-						setState(177);
-						expr(14);
+						expression(15);
 						}
 						break;
 					case 3:
 						{
-						_localctx = new AddContext(new ExprContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(178);
-						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
-						setState(179);
+						_localctx = new AddContext(new ExpressionContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expression);
+						setState(176);
+						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
+						setState(177);
 						match(ADD);
-						setState(180);
-						expr(13);
+						setState(178);
+						expression(14);
 						}
 						break;
 					case 4:
 						{
-						_localctx = new MinusContext(new ExprContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(181);
-						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
-						setState(182);
+						_localctx = new MinusContext(new ExpressionContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expression);
+						setState(179);
+						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
+						setState(180);
 						match(MINUS);
-						setState(183);
-						expr(12);
+						setState(181);
+						expression(13);
 						}
 						break;
 					case 5:
 						{
-						_localctx = new LessThanOrEqualToContext(new ExprContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						_localctx = new LessThanContext(new ExpressionContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expression);
+						setState(182);
+						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
+						setState(183);
+						match(LESS_THAN);
 						setState(184);
-						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
-						setState(185);
-						match(LEQ);
-						setState(186);
-						expr(11);
+						expression(12);
 						}
 						break;
 					case 6:
 						{
-						_localctx = new LessThanContext(new ExprContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						_localctx = new LessEqualContext(new ExpressionContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expression);
+						setState(185);
+						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
+						setState(186);
+						match(LESS_EQUAL);
 						setState(187);
-						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
-						setState(188);
-						match(LT);
-						setState(189);
-						expr(10);
+						expression(11);
 						}
 						break;
 					case 7:
 						{
-						_localctx = new EqContext(new ExprContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						_localctx = new EqualContext(new ExpressionContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expression);
+						setState(188);
+						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
+						setState(189);
+						match(EQUAL);
 						setState(190);
-						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
-						setState(191);
-						match(EQ);
-						setState(192);
-						expr(9);
+						expression(10);
 						}
 						break;
 					case 8:
 						{
-						_localctx = new DispatchContext(new ExprContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(193);
-						if (!(precpred(_ctx, 24))) throw new FailedPredicateException(this, "precpred(_ctx, 24)");
-						setState(196);
+						_localctx = new MethodCallContext(new ExpressionContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expression);
+						setState(191);
+						if (!(precpred(_ctx, 25))) throw new FailedPredicateException(this, "precpred(_ctx, 25)");
+						setState(194);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
-						if (_la==AT) {
+						if (_la==T__7) {
 							{
-							setState(194);
-							match(AT);
-							setState(195);
-							match(TYPE);
+							setState(192);
+							match(T__7);
+							setState(193);
+							match(TYPEID);
 							}
 						}
 
+						setState(196);
+						match(T__8);
+						setState(197);
+						match(OBJECTID);
 						setState(198);
-						match(PERIOD);
-						setState(199);
-						match(ID);
-						setState(200);
-						match(LPAREN);
-						setState(211);
+						match(T__3);
+						setState(207);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
-						while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << TRUE) | (1L << FALSE) | (1L << IF) | (1L << ISVOID) | (1L << LET) | (1L << WHILE) | (1L << CASE) | (1L << NEW) | (1L << NOT) | (1L << ID) | (1L << INT_CONST) | (1L << LPAREN) | (1L << LBRACE) | (1L << NEG) | (1L << STR_CONST))) != 0)) {
+						if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__3) | (1L << FALSE) | (1L << IF) | (1L << ISVOID) | (1L << LET) | (1L << WHILE) | (1L << CASE) | (1L << NEW) | (1L << NOT) | (1L << TRUE) | (1L << STRING) | (1L << INT) | (1L << OBJECTID) | (1L << INTEGER_NEGATIVE))) != 0)) {
 							{
-							{
-							setState(201);
-							expr(0);
-							setState(206);
+							setState(199);
+							expression(0);
+							setState(204);
 							_errHandler.sync(this);
 							_la = _input.LA(1);
-							while (_la==COMMA) {
+							while (_la==T__4) {
 								{
 								{
-								setState(202);
-								match(COMMA);
-								setState(203);
-								expr(0);
+								setState(200);
+								match(T__4);
+								setState(201);
+								expression(0);
 								}
 								}
-								setState(208);
+								setState(206);
 								_errHandler.sync(this);
 								_la = _input.LA(1);
 							}
 							}
-							}
-							setState(213);
-							_errHandler.sync(this);
-							_la = _input.LA(1);
 						}
-						setState(214);
-						match(RPAREN);
+
+						setState(209);
+						match(T__5);
 						}
 						break;
 					}
 					} 
 				}
-				setState(219);
+				setState(214);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
 			}
 			}
 		}
@@ -1246,106 +1202,104 @@ public class YAPLParser extends Parser {
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
 		case 5:
-			return expr_sempred((ExprContext)_localctx, predIndex);
+			return expression_sempred((ExpressionContext)_localctx, predIndex);
 		}
 		return true;
 	}
-	private boolean expr_sempred(ExprContext _localctx, int predIndex) {
+	private boolean expression_sempred(ExpressionContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 14);
+			return precpred(_ctx, 15);
 		case 1:
-			return precpred(_ctx, 13);
+			return precpred(_ctx, 14);
 		case 2:
-			return precpred(_ctx, 12);
+			return precpred(_ctx, 13);
 		case 3:
-			return precpred(_ctx, 11);
+			return precpred(_ctx, 12);
 		case 4:
-			return precpred(_ctx, 10);
+			return precpred(_ctx, 11);
 		case 5:
-			return precpred(_ctx, 9);
+			return precpred(_ctx, 10);
 		case 6:
-			return precpred(_ctx, 8);
+			return precpred(_ctx, 9);
 		case 7:
-			return precpred(_ctx, 24);
+			return precpred(_ctx, 25);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\39\u00df\4\2\t\2\4"+
-		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\3\2\3\2\3\2\6\2\22\n\2\r\2\16\2"+
-		"\23\3\2\3\2\3\3\3\3\3\3\3\3\5\3\34\n\3\3\3\3\3\3\3\3\3\7\3\"\n\3\f\3\16"+
-		"\3%\13\3\3\3\3\3\3\3\3\4\3\4\3\4\3\4\3\4\7\4/\n\4\f\4\16\4\62\13\4\7\4"+
-		"\64\n\4\f\4\16\4\67\13\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3"+
-		"\4\5\4E\n\4\5\4G\n\4\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\5\6R\n\6\3\7"+
-		"\3\7\3\7\3\7\3\7\3\7\7\7Z\n\7\f\7\16\7]\13\7\7\7_\n\7\f\7\16\7b\13\7\3"+
-		"\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7"+
-		"\3\7\7\7w\n\7\f\7\16\7z\13\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3"+
-		"\7\3\7\3\7\6\7\u0089\n\7\r\7\16\7\u008a\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3"+
-		"\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\6\7\u009d\n\7\r\7\16\7\u009e\3\7\3"+
-		"\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\5\7\u00ad\n\7\3\7\3\7\3\7\3"+
-		"\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7"+
-		"\3\7\3\7\3\7\5\7\u00c7\n\7\3\7\3\7\3\7\3\7\3\7\3\7\7\7\u00cf\n\7\f\7\16"+
-		"\7\u00d2\13\7\7\7\u00d4\n\7\f\7\16\7\u00d7\13\7\3\7\7\7\u00da\n\7\f\7"+
-		"\16\7\u00dd\13\7\3\7\2\3\f\b\2\4\6\b\n\f\2\2\2\u0100\2\21\3\2\2\2\4\27"+
-		"\3\2\2\2\6F\3\2\2\2\bH\3\2\2\2\nL\3\2\2\2\f\u00ac\3\2\2\2\16\17\5\4\3"+
-		"\2\17\20\7)\2\2\20\22\3\2\2\2\21\16\3\2\2\2\22\23\3\2\2\2\23\21\3\2\2"+
-		"\2\23\24\3\2\2\2\24\25\3\2\2\2\25\26\7\2\2\3\26\3\3\2\2\2\27\30\7\21\2"+
-		"\2\30\33\7\"\2\2\31\32\7\25\2\2\32\34\7\"\2\2\33\31\3\2\2\2\33\34\3\2"+
-		"\2\2\34\35\3\2\2\2\35#\7\'\2\2\36\37\5\6\4\2\37 \7)\2\2 \"\3\2\2\2!\36"+
-		"\3\2\2\2\"%\3\2\2\2#!\3\2\2\2#$\3\2\2\2$&\3\2\2\2%#\3\2\2\2&\'\7(\2\2"+
-		"\'(\b\3\1\2(\5\3\2\2\2)*\7#\2\2*\65\7%\2\2+\60\5\b\5\2,-\7.\2\2-/\5\b"+
-		"\5\2.,\3\2\2\2/\62\3\2\2\2\60.\3\2\2\2\60\61\3\2\2\2\61\64\3\2\2\2\62"+
-		"\60\3\2\2\2\63+\3\2\2\2\64\67\3\2\2\2\65\63\3\2\2\2\65\66\3\2\2\2\668"+
-		"\3\2\2\2\67\65\3\2\2\289\7&\2\29:\7*\2\2:;\7\"\2\2;<\7\'\2\2<=\5\f\7\2"+
-		"=>\7(\2\2>G\3\2\2\2?@\7#\2\2@A\7*\2\2AD\7\"\2\2BC\7+\2\2CE\5\f\7\2DB\3"+
-		"\2\2\2DE\3\2\2\2EG\3\2\2\2F)\3\2\2\2F?\3\2\2\2G\7\3\2\2\2HI\7#\2\2IJ\7"+
-		"*\2\2JK\7\"\2\2K\t\3\2\2\2LM\7#\2\2MN\7*\2\2NQ\7\"\2\2OP\7+\2\2PR\5\f"+
-		"\7\2QO\3\2\2\2QR\3\2\2\2R\13\3\2\2\2ST\b\7\1\2TU\7#\2\2U`\7%\2\2V[\5\f"+
-		"\7\2WX\7.\2\2XZ\5\f\7\2YW\3\2\2\2Z]\3\2\2\2[Y\3\2\2\2[\\\3\2\2\2\\_\3"+
-		"\2\2\2][\3\2\2\2^V\3\2\2\2_b\3\2\2\2`^\3\2\2\2`a\3\2\2\2ac\3\2\2\2b`\3"+
-		"\2\2\2c\u00ad\7&\2\2de\7\23\2\2ef\5\f\7\2fg\7\32\2\2gh\5\f\7\2hi\7\33"+
-		"\2\2ij\5\f\7\2jk\7\22\2\2k\u00ad\3\2\2\2lm\7\34\2\2mn\5\f\7\2no\7\30\2"+
-		"\2op\5\f\7\2pq\7\31\2\2q\u00ad\3\2\2\2rs\7\27\2\2sx\5\n\6\2tu\7.\2\2u"+
-		"w\5\n\6\2vt\3\2\2\2wz\3\2\2\2xv\3\2\2\2xy\3\2\2\2y{\3\2\2\2zx\3\2\2\2"+
-		"{|\7\24\2\2|}\5\f\7\27}\u00ad\3\2\2\2~\177\7\35\2\2\177\u0080\5\f\7\2"+
-		"\u0080\u0088\7 \2\2\u0081\u0082\7#\2\2\u0082\u0083\7*\2\2\u0083\u0084"+
-		"\7\"\2\2\u0084\u0085\7,\2\2\u0085\u0086\5\f\7\2\u0086\u0087\7)\2\2\u0087"+
-		"\u0089\3\2\2\2\u0088\u0081\3\2\2\2\u0089\u008a\3\2\2\2\u008a\u0088\3\2"+
-		"\2\2\u008a\u008b\3\2\2\2\u008b\u008c\3\2\2\2\u008c\u008d\7\36\2\2\u008d"+
-		"\u00ad\3\2\2\2\u008e\u008f\7\37\2\2\u008f\u00ad\7\"\2\2\u0090\u0091\7"+
-		"-\2\2\u0091\u00ad\5\f\7\24\u0092\u0093\7\26\2\2\u0093\u00ad\5\f\7\23\u0094"+
-		"\u0095\7%\2\2\u0095\u0096\5\f\7\2\u0096\u0097\7&\2\2\u0097\u00ad\3\2\2"+
-		"\2\u0098\u009c\7\'\2\2\u0099\u009a\5\f\7\2\u009a\u009b\7)\2\2\u009b\u009d"+
-		"\3\2\2\2\u009c\u0099\3\2\2\2\u009d\u009e\3\2\2\2\u009e\u009c\3\2\2\2\u009e"+
-		"\u009f\3\2\2\2\u009f\u00a0\3\2\2\2\u00a0\u00a1\7(\2\2\u00a1\u00ad\3\2"+
-		"\2\2\u00a2\u00a3\7!\2\2\u00a3\u00ad\5\f\7\t\u00a4\u00a5\7#\2\2\u00a5\u00a6"+
-		"\7+\2\2\u00a6\u00ad\5\f\7\b\u00a7\u00ad\7#\2\2\u00a8\u00ad\7$\2\2\u00a9"+
-		"\u00ad\79\2\2\u00aa\u00ad\7\17\2\2\u00ab\u00ad\7\20\2\2\u00acS\3\2\2\2"+
-		"\u00acd\3\2\2\2\u00acl\3\2\2\2\u00acr\3\2\2\2\u00ac~\3\2\2\2\u00ac\u008e"+
-		"\3\2\2\2\u00ac\u0090\3\2\2\2\u00ac\u0092\3\2\2\2\u00ac\u0094\3\2\2\2\u00ac"+
-		"\u0098\3\2\2\2\u00ac\u00a2\3\2\2\2\u00ac\u00a4\3\2\2\2\u00ac\u00a7\3\2"+
-		"\2\2\u00ac\u00a8\3\2\2\2\u00ac\u00a9\3\2\2\2\u00ac\u00aa\3\2\2\2\u00ac"+
-		"\u00ab\3\2\2\2\u00ad\u00db\3\2\2\2\u00ae\u00af\f\20\2\2\u00af\u00b0\7"+
-		"\61\2\2\u00b0\u00da\5\f\7\21\u00b1\u00b2\f\17\2\2\u00b2\u00b3\7\64\2\2"+
-		"\u00b3\u00da\5\f\7\20\u00b4\u00b5\f\16\2\2\u00b5\u00b6\7\62\2\2\u00b6"+
-		"\u00da\5\f\7\17\u00b7\u00b8\f\r\2\2\u00b8\u00b9\7\63\2\2\u00b9\u00da\5"+
-		"\f\7\16\u00ba\u00bb\f\f\2\2\u00bb\u00bc\7\66\2\2\u00bc\u00da\5\f\7\r\u00bd"+
-		"\u00be\f\13\2\2\u00be\u00bf\7\65\2\2\u00bf\u00da\5\f\7\f\u00c0\u00c1\f"+
-		"\n\2\2\u00c1\u00c2\7\67\2\2\u00c2\u00da\5\f\7\13\u00c3\u00c6\f\32\2\2"+
-		"\u00c4\u00c5\7\60\2\2\u00c5\u00c7\7\"\2\2\u00c6\u00c4\3\2\2\2\u00c6\u00c7"+
-		"\3\2\2\2\u00c7\u00c8\3\2\2\2\u00c8\u00c9\7/\2\2\u00c9\u00ca\7#\2\2\u00ca"+
-		"\u00d5\7%\2\2\u00cb\u00d0\5\f\7\2\u00cc\u00cd\7.\2\2\u00cd\u00cf\5\f\7"+
-		"\2\u00ce\u00cc\3\2\2\2\u00cf\u00d2\3\2\2\2\u00d0\u00ce\3\2\2\2\u00d0\u00d1"+
-		"\3\2\2\2\u00d1\u00d4\3\2\2\2\u00d2\u00d0\3\2\2\2\u00d3\u00cb\3\2\2\2\u00d4"+
-		"\u00d7\3\2\2\2\u00d5\u00d3\3\2\2\2\u00d5\u00d6\3\2\2\2\u00d6\u00d8\3\2"+
-		"\2\2\u00d7\u00d5\3\2\2\2\u00d8\u00da\7&\2\2\u00d9\u00ae\3\2\2\2\u00d9"+
-		"\u00b1\3\2\2\2\u00d9\u00b4\3\2\2\2\u00d9\u00b7\3\2\2\2\u00d9\u00ba\3\2"+
-		"\2\2\u00d9\u00bd\3\2\2\2\u00d9\u00c0\3\2\2\2\u00d9\u00c3\3\2\2\2\u00da"+
-		"\u00dd\3\2\2\2\u00db\u00d9\3\2\2\2\u00db\u00dc\3\2\2\2\u00dc\r\3\2\2\2"+
-		"\u00dd\u00db\3\2\2\2\25\23\33#\60\65DFQ[`x\u008a\u009e\u00ac\u00c6\u00d0"+
-		"\u00d5\u00d9\u00db";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\61\u00da\4\2\t\2"+
+		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\3\2\3\2\3\2\3\3\3\3\3\3\3\3\3"+
+		"\3\5\3\27\n\3\3\4\3\4\3\4\3\4\5\4\35\n\4\3\4\3\4\3\4\3\4\7\4#\n\4\f\4"+
+		"\16\4&\13\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\7\5/\n\5\f\5\16\5\62\13\5\5\5"+
+		"\64\n\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5B\n\5\5\5D"+
+		"\n\5\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7\7\7P\n\7\f\7\16\7S\13\7\5"+
+		"\7U\n\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3"+
+		"\7\3\7\3\7\3\7\6\7j\n\7\r\7\16\7k\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\5\7"+
+		"v\n\7\3\7\3\7\3\7\3\7\3\7\3\7\5\7~\n\7\7\7\u0080\n\7\f\7\16\7\u0083\13"+
+		"\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\6\7\u0091\n\7\r\7\16"+
+		"\7\u0092\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3"+
+		"\7\3\7\3\7\3\7\3\7\3\7\3\7\5\7\u00ab\n\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3"+
+		"\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\5\7"+
+		"\u00c5\n\7\3\7\3\7\3\7\3\7\3\7\3\7\7\7\u00cd\n\7\f\7\16\7\u00d0\13\7\5"+
+		"\7\u00d2\n\7\3\7\7\7\u00d5\n\7\f\7\16\7\u00d8\13\7\3\7\2\3\f\b\2\4\6\b"+
+		"\n\f\2\2\2\u00fc\2\16\3\2\2\2\4\26\3\2\2\2\6\30\3\2\2\2\bC\3\2\2\2\nE"+
+		"\3\2\2\2\f\u00aa\3\2\2\2\16\17\5\4\3\2\17\20\7\2\2\3\20\3\3\2\2\2\21\22"+
+		"\5\6\4\2\22\23\7\3\2\2\23\24\5\4\3\2\24\27\3\2\2\2\25\27\7\2\2\3\26\21"+
+		"\3\2\2\2\26\25\3\2\2\2\27\5\3\2\2\2\30\31\7\f\2\2\31\34\7!\2\2\32\33\7"+
+		"\22\2\2\33\35\7!\2\2\34\32\3\2\2\2\34\35\3\2\2\2\35\36\3\2\2\2\36$\7\4"+
+		"\2\2\37 \5\b\5\2 !\7\3\2\2!#\3\2\2\2\"\37\3\2\2\2#&\3\2\2\2$\"\3\2\2\2"+
+		"$%\3\2\2\2%\'\3\2\2\2&$\3\2\2\2\'(\7\5\2\2(\7\3\2\2\2)*\7\"\2\2*\63\7"+
+		"\6\2\2+\60\5\n\6\2,-\7\7\2\2-/\5\n\6\2.,\3\2\2\2/\62\3\2\2\2\60.\3\2\2"+
+		"\2\60\61\3\2\2\2\61\64\3\2\2\2\62\60\3\2\2\2\63+\3\2\2\2\63\64\3\2\2\2"+
+		"\64\65\3\2\2\2\65\66\7\b\2\2\66\67\7\t\2\2\678\7!\2\289\7\4\2\29:\5\f"+
+		"\7\2:;\7\5\2\2;D\3\2\2\2<=\7\"\2\2=>\7\t\2\2>A\7!\2\2?@\7#\2\2@B\5\f\7"+
+		"\2A?\3\2\2\2AB\3\2\2\2BD\3\2\2\2C)\3\2\2\2C<\3\2\2\2D\t\3\2\2\2EF\7\""+
+		"\2\2FG\7\t\2\2GH\7!\2\2H\13\3\2\2\2IJ\b\7\1\2JK\7\"\2\2KT\7\6\2\2LQ\5"+
+		"\f\7\2MN\7\7\2\2NP\5\f\7\2OM\3\2\2\2PS\3\2\2\2QO\3\2\2\2QR\3\2\2\2RU\3"+
+		"\2\2\2SQ\3\2\2\2TL\3\2\2\2TU\3\2\2\2UV\3\2\2\2V\u00ab\7\b\2\2WX\7\20\2"+
+		"\2XY\5\f\7\2YZ\7\27\2\2Z[\5\f\7\2[\\\7\r\2\2\\]\5\f\7\2]^\7\17\2\2^\u00ab"+
+		"\3\2\2\2_`\7\30\2\2`a\5\f\7\2ab\7\25\2\2bc\5\f\7\2cd\7\26\2\2d\u00ab\3"+
+		"\2\2\2ei\7\4\2\2fg\5\f\7\2gh\7\3\2\2hj\3\2\2\2if\3\2\2\2jk\3\2\2\2ki\3"+
+		"\2\2\2kl\3\2\2\2lm\3\2\2\2mn\7\5\2\2n\u00ab\3\2\2\2op\7\24\2\2pq\7\"\2"+
+		"\2qr\7\t\2\2ru\7!\2\2st\7#\2\2tv\5\f\7\2us\3\2\2\2uv\3\2\2\2v\u0081\3"+
+		"\2\2\2wx\7\7\2\2xy\7\"\2\2yz\7\t\2\2z}\7!\2\2{|\7#\2\2|~\5\f\7\2}{\3\2"+
+		"\2\2}~\3\2\2\2~\u0080\3\2\2\2\177w\3\2\2\2\u0080\u0083\3\2\2\2\u0081\177"+
+		"\3\2\2\2\u0081\u0082\3\2\2\2\u0082\u0084\3\2\2\2\u0083\u0081\3\2\2\2\u0084"+
+		"\u0085\7\21\2\2\u0085\u00ab\5\f\7\26\u0086\u0087\7\31\2\2\u0087\u0088"+
+		"\5\f\7\2\u0088\u0090\7\34\2\2\u0089\u008a\7\"\2\2\u008a\u008b\7\t\2\2"+
+		"\u008b\u008c\7!\2\2\u008c\u008d\7$\2\2\u008d\u008e\5\f\7\2\u008e\u008f"+
+		"\7\3\2\2\u008f\u0091\3\2\2\2\u0090\u0089\3\2\2\2\u0091\u0092\3\2\2\2\u0092"+
+		"\u0090\3\2\2\2\u0092\u0093\3\2\2\2\u0093\u0094\3\2\2\2\u0094\u0095\7\32"+
+		"\2\2\u0095\u00ab\3\2\2\2\u0096\u0097\7\33\2\2\u0097\u00ab\7!\2\2\u0098"+
+		"\u0099\7,\2\2\u0099\u00ab\5\f\7\23\u009a\u009b\7\23\2\2\u009b\u00ab\5"+
+		"\f\7\22\u009c\u009d\7\35\2\2\u009d\u00ab\5\f\7\n\u009e\u009f\7\6\2\2\u009f"+
+		"\u00a0\5\f\7\2\u00a0\u00a1\7\b\2\2\u00a1\u00ab\3\2\2\2\u00a2\u00ab\7\""+
+		"\2\2\u00a3\u00ab\7 \2\2\u00a4\u00ab\7\37\2\2\u00a5\u00ab\7\36\2\2\u00a6"+
+		"\u00ab\7\16\2\2\u00a7\u00a8\7\"\2\2\u00a8\u00a9\7#\2\2\u00a9\u00ab\5\f"+
+		"\7\3\u00aaI\3\2\2\2\u00aaW\3\2\2\2\u00aa_\3\2\2\2\u00aae\3\2\2\2\u00aa"+
+		"o\3\2\2\2\u00aa\u0086\3\2\2\2\u00aa\u0096\3\2\2\2\u00aa\u0098\3\2\2\2"+
+		"\u00aa\u009a\3\2\2\2\u00aa\u009c\3\2\2\2\u00aa\u009e\3\2\2\2\u00aa\u00a2"+
+		"\3\2\2\2\u00aa\u00a3\3\2\2\2\u00aa\u00a4\3\2\2\2\u00aa\u00a5\3\2\2\2\u00aa"+
+		"\u00a6\3\2\2\2\u00aa\u00a7\3\2\2\2\u00ab\u00d6\3\2\2\2\u00ac\u00ad\f\21"+
+		"\2\2\u00ad\u00ae\7\'\2\2\u00ae\u00d5\5\f\7\22\u00af\u00b0\f\20\2\2\u00b0"+
+		"\u00b1\7(\2\2\u00b1\u00d5\5\f\7\21\u00b2\u00b3\f\17\2\2\u00b3\u00b4\7"+
+		"%\2\2\u00b4\u00d5\5\f\7\20\u00b5\u00b6\f\16\2\2\u00b6\u00b7\7&\2\2\u00b7"+
+		"\u00d5\5\f\7\17\u00b8\u00b9\f\r\2\2\u00b9\u00ba\7)\2\2\u00ba\u00d5\5\f"+
+		"\7\16\u00bb\u00bc\f\f\2\2\u00bc\u00bd\7*\2\2\u00bd\u00d5\5\f\7\r\u00be"+
+		"\u00bf\f\13\2\2\u00bf\u00c0\7+\2\2\u00c0\u00d5\5\f\7\f\u00c1\u00c4\f\33"+
+		"\2\2\u00c2\u00c3\7\n\2\2\u00c3\u00c5\7!\2\2\u00c4\u00c2\3\2\2\2\u00c4"+
+		"\u00c5\3\2\2\2\u00c5\u00c6\3\2\2\2\u00c6\u00c7\7\13\2\2\u00c7\u00c8\7"+
+		"\"\2\2\u00c8\u00d1\7\6\2\2\u00c9\u00ce\5\f\7\2\u00ca\u00cb\7\7\2\2\u00cb"+
+		"\u00cd\5\f\7\2\u00cc\u00ca\3\2\2\2\u00cd\u00d0\3\2\2\2\u00ce\u00cc\3\2"+
+		"\2\2\u00ce\u00cf\3\2\2\2\u00cf\u00d2\3\2\2\2\u00d0\u00ce\3\2\2\2\u00d1"+
+		"\u00c9\3\2\2\2\u00d1\u00d2\3\2\2\2\u00d2\u00d3\3\2\2\2\u00d3\u00d5\7\b"+
+		"\2\2\u00d4\u00ac\3\2\2\2\u00d4\u00af\3\2\2\2\u00d4\u00b2\3\2\2\2\u00d4"+
+		"\u00b5\3\2\2\2\u00d4\u00b8\3\2\2\2\u00d4\u00bb\3\2\2\2\u00d4\u00be\3\2"+
+		"\2\2\u00d4\u00c1\3\2\2\2\u00d5\u00d8\3\2\2\2\u00d6\u00d4\3\2\2\2\u00d6"+
+		"\u00d7\3\2\2\2\u00d7\r\3\2\2\2\u00d8\u00d6\3\2\2\2\26\26\34$\60\63ACQ"+
+		"Tku}\u0081\u0092\u00aa\u00c4\u00ce\u00d1\u00d4\u00d6";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
