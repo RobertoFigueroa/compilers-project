@@ -1,3 +1,6 @@
+# This a makefile for getting parser tree 
+# image, this is run from main.py script
+
 ANTLR = /usr/local/lib/antlr-4.10.1-complete.jar
 GRAMMAR_NAME = YAPL
 ANTLR_FLAGS = -no-visitor -no-listener
