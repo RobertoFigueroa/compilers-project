@@ -1,3 +1,6 @@
+from prettytable import PrettyTable
+
+
 class Symbol:
 
     def __init__(self, name) -> None:
@@ -52,6 +55,15 @@ class AttributeTable:
             'belongs_to' : belongs_to
         })
 
+    def get_table(self) -> str:
+        pt = PrettyTable()
+        if len(self.table) > 0:
+            pt.field_names = list(self.table[0].keys())
+            vals = [list(i.values()) for i in self.table]
+            pt.add_rows(vals)
+        return pt
+
+
 
 class FuncTable:
 
@@ -67,6 +79,13 @@ class FuncTable:
             'belongs_to' : belongs_to
         })
 
+    def get_table(self) -> str:
+        pt = PrettyTable()
+        if len(self.table) > 0:
+            pt.field_names = list(self.table[0].keys())
+            vals = [list(i.values()) for i in self.table]
+            pt.add_rows(vals)
+        return pt
 
 class ClassTable:
 
@@ -80,6 +99,14 @@ class ClassTable:
             'inherits': inherits
         })
 
+
+    def get_table(self) -> str:
+        pt = PrettyTable()
+        if len(self.table) > 0:
+            pt.field_names = list(self.table[0].keys())
+            vals = [list(i.values()) for i in self.table]
+            pt.add_rows(vals)
+        return pt
 
     
 

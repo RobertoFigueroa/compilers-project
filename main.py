@@ -1,3 +1,4 @@
+from doctest import ELLIPSIS_MARKER
 import os
 from antlr4 import *
 from dist.YAPL.YAPLLexer import YAPLLexer
@@ -20,20 +21,36 @@ CLASSPATH = ".:/usr/local/lib/antlr-4.10.1-complete.jar:.:/usr/local/lib/antlr-4
 
 class CustomVisitor(YAPLVisitor):
 
-    cTable = ClassTable()
-    aTable = AttributeTable()
-    fTable = FuncTable()
+    def __init__(self) -> None:
+        super().__init__()
+        self.cTable = ClassTable()
+        self.aTable = AttributeTable()
+        self.fTable = FuncTable()
+        self.current_scope = 0
 
-
-    def visitMethod(self, ctx: YAPLParser.MethodContext):
-        return super().visitMethod(ctx)
+    def visitClassDefine(self, ctx: YAPLParser.ClassDefineContext):
+        self.current_scope += 1
+        if ctx.INHERITS():
+            self.cTable.add(ctx.TYPEID()[0].getText(), ctx.TYPEID()[1].getText())
+        else:
+            self.cTable.add(ctx.TYPEID()[0].getText(), None)
+        return super().visitClassDefine(ctx)
 
     def visitProperty(self, ctx: YAPLParser.PropertyContext):
-        # print(ctx.getText())
-        print(ctx.OBJECTID())
-        ctx.TYPEID()
-        ctx.ASSIGNMENT()
+        belongs_to = ctx.parentCtx.TYPEID()[0].getText()
+        self.aTable.add(ctx.OBJECTID().getText(), ctx.TYPEID().getText(), self.current_scope, belongs_to)
         return super().visitProperty(ctx)
+
+    def visitMethod(self, ctx: YAPLParser.MethodContext):
+        self.current_scope += 1 
+        params = ctx.formal()
+        tparams = []
+        belongs_to = ctx.parentCtx.TYPEID()[0].getText()
+        for i in params:
+            tparams.append((i.OBJECTID().getText(), i.TYPEID().getText()))
+        self.fTable.add(ctx.OBJECTID().getText(), tparams, self.current_scope, ctx.TYPEID().getText(), belongs_to)
+        self.current_scope -= 1
+        return super().visitMethod(ctx)
     
 
 if __name__ == "__main__":
@@ -48,10 +65,14 @@ if __name__ == "__main__":
     stream = CommonTokenStream(lexer)
     parser = YAPLParser(stream)
     tree = parser.program()
-    
+
     visitor = CustomVisitor()
     output = visitor.visit(tree)
+
     
+    print(visitor.aTable.get_table())
+    print(visitor.fTable.get_table())
+    print(visitor.cTable.get_table())
     # print(output)
 
     # os.system(f"{JAVA_COM} {ANTLR} org.antlr.v4.Tool {ANTLR_FLAGS} -o {OUT_DIR} ./{GRAMMAR_NAME}/{GRAMMAR_NAME}.g4")

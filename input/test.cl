@@ -1,8 +1,8 @@
 class Main inherits IO {
     num : Int <- 500;
-    a : Int <- 1;
-    b : Int <- 1;
-    c : Int <- 1;
+    a : Int <- 7;
+    b : Int <- 8;
+    c : Int <- 11;
     main() : SELF_TYPE {
 	{
         a <- a + b * c;
