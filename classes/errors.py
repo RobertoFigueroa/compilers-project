@@ -17,3 +17,18 @@ class ClassTypeNotFound(Exception):
 
     def __str__(self):
         return f'{self.name_type} -> {self.message}'
+
+
+class Errors:
+
+    def __init__(self) -> None:
+        self.errors = []
+
+    def add_error(self, msg : str, at : int = None) -> None:
+        if at:
+            self.errors.append(msg + f" near to {at}")
+        else:
+            self.errors.append(msg)
+
+    def get_errors(self) -> list:
+        return self.errors
