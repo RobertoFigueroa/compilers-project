@@ -52,6 +52,17 @@ class TypeElement(object): #AKA a Class
             list(self.methods.keys())
         ]
 
+    def exists_method(self, method_name : str) -> bool:
+        if method_name in self.methods.keys():
+            return True
+        return False
+
+    def find_method(self, method_name : str) -> dict or str :
+        if method_name in self.methods.keys():
+            return self.methods[method_name]
+        else:
+            return 'Error'
+
 class TypeTable(object):
 
     def __init__(self, error_handler : Errors) -> None:
@@ -103,6 +114,12 @@ class TypeTable(object):
                 return True
         else:
             return False
+
+    def check_method(self, method_name : str):
+        for i in self.table:
+            if i.exists_method(method_name):
+                return i.find_method(method_name)
+        return None
 
 
     def get_table(self) -> str:
@@ -162,6 +179,9 @@ class SymbolTable:
         for i in self.table:
             if i.name == name:
                 return i._type
+        self.error_handler.add_error(f"Symbol not found in current scope {name}")
+        return "Error"
+
 
     def exists(self, name :str) -> bool:
         for i in self.table:

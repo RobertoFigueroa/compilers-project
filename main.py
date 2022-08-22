@@ -51,7 +51,6 @@ class CustomVisitor(YAPLVisitor):
 
     def visitLetIn(self, ctx: YAPLParser.LetInContext):
         self.symbol_table.push(SymbolTable(self.errors, 2))
-        print("This is stack\n", self.symbol_table.get_stack(), "in let")
         return super().visitLetIn(ctx)
 
     def visitClassDefine(self, ctx: YAPLParser.ClassDefineContext): # Class definition
@@ -65,7 +64,6 @@ class CustomVisitor(YAPLVisitor):
         #         sym_table = self.symbol_table.pop()
         #         if sym_table.context == 0:
         #             _exit = True
-        print("This is stack\n", self.symbol_table.get_stack(), "in", ctx.TYPEID()[0].getText())
         self.class_def = ctx.TYPEID()[0].getText()
         if ctx.INHERITS():
             _type = TypeElement(ctx.TYPEID()[0].getText(), ctx.TYPEID()[1].getText())
@@ -96,39 +94,40 @@ class CustomVisitor(YAPLVisitor):
                     self.symbol_table.push(SymbolTable(self.errors, 1))
             if self.symbol_table.is_empty():
                 print("Fatal error, parent class not found")
-        print("This is stack\n", self.symbol_table.get_stack(), "in", ctx.OBJECTID().getText())
+                self.symbol_table.push(SymbolTable(self.errors, 1))
         params = ctx.formal()
         tparams = {}
         belongs_to = ctx.parentCtx.TYPEID()[0].getText()
         for i in params:
             tparams[i.OBJECTID().getText()] = i.TYPEID().getText() 
+            self.symbol_table.top().add_symbol(Symbol(i.OBJECTID().getText(), i.TYPEID().getText()))
         # tparams["type"] = ctx.TYPEID().getText()
         self.types_table.update_methods(ctx.OBJECTID().getText(), ctx.TYPEID().getText(), tparams, belongs_to)
+        self.symbol_table.top().add_symbol(Symbol(ctx.OBJECTID().getText(), ctx.TYPEID().getText()))
+        
         return super().visitMethod(ctx)
 
-
-
-    
-    
     def visitAssignment(self, ctx: YAPLParser.AssignmentContext):
-        # print("This is assignment", ctx.OBJECTID().getText(), ctx.ASSIGNMENT().getText(), ctx.expression())
+        # print("This is assignment", ctx.OBJECTID().getText(), ctx.ASSIGNMENT().getText(), ctx.expression().getText())
         return super().visitAssignment(ctx)
     
-    # def visitId(self, ctx: YAPLParser.IdContext):
-    #     # Check if exists in local context
-    #     value = ctx.OBJECTID().getText()
-    #     if self.symbol_table.top().exists(value): 
-    #         return self.symbol_table.top().get_symbol_type(value)
-    #     else:
-    #         # Check in global context
-    #         local_scope = self.symbol_table.pop()
-    #         if self.symbol_table.top().exists(value):
-    #             self.symbol_table.push(local_scope)
-    #             return self.symbol_table.top().get_symbol_type(value)
-    #         else:
-    #             self.symbol_table.push(local_scope)
-    #             self.errors.add_error(f"Variable {value} not defined in this scope", ctx.start.line)
-    #             return ERROR
+    def visitId(self, ctx: YAPLParser.IdContext):
+        # Check if exists in local context
+        value = ctx.OBJECTID().getText()
+        if self.symbol_table.top().exists(value): 
+            print("Checking in local context")
+            return self.symbol_table.top().get_symbol_type(value)
+        else:
+            # Check in global context
+            local_scope = self.symbol_table.pop()
+            if self.symbol_table.top().exists(value):
+                _type = self.symbol_table.top().get_symbol_type(value)
+                self.symbol_table.push(local_scope)
+                return _type
+            else:
+                self.symbol_table.push(local_scope)
+                self.errors.add_error(f"Variable {value} not defined in this scope", ctx.start.line)
+                return ERROR
 
     def visitIf(self, ctx: YAPLParser.IfContext):
         childrenNodes = [self.visit(i) for i in ctx.expression()]
@@ -178,30 +177,65 @@ class CustomVisitor(YAPLVisitor):
             return ERROR
 
     def visitBoolNot(self, ctx: YAPLParser.BoolNotContext):
-        childNode = [self.visit(i) for i in ctx.expression()]
-        if childNode[0] == TYPE_BOOL:
-            return TYPE_BOOL
+        expr = self.visit(ctx.expression())
+        if type(expr) == list:
+            childNode = [self.visit(i) for i in expr]
+            if childNode[0] == TYPE_BOOL:
+                return TYPE_BOOL
+            else:
+                self.errors.add_error(f"Invalid expression ~{childNode[0]} types missmatch", ctx.start.line)
         else:
-            self.errors.add_error(f"Invalid expression ~{childNode[0]} types missmatch", ctx.start.line)
-            return ERROR
+            if expr == TYPE_BOOL:
+                return TYPE_BOOL
+            else:
+                self.errors.add_error(f"Invalid expression ~{expr} types missmatch", ctx.start.line)
+                return ERROR
 
     def visitNegative(self, ctx: YAPLParser.NegativeContext):
-        childNode = [self.visit(i) for i in ctx.expression()]
-        if childNode[0] == TYPE_INT:
-            return TYPE_INT
+        expr = self.visit(ctx.expression())
+        if type(expr) == list:
+            childNode = [self.visit(i) for i in expr]
+            if childNode[0] == TYPE_INT:
+                return TYPE_INT
+            else:
+                self.errors.add_error(f"Invalid expression ~{childNode[0]} types missmatch", ctx.start.line)
         else:
-            self.errors.add_error(f"Invalid expression ~{childNode[0]} types missmatch", ctx.start.line)
-            return ERROR
+            if expr == TYPE_INT:
+                return TYPE_INT
+            else:
+                self.errors.add_error(f"Invalid expression ~{expr} types missmatch", ctx.start.line)
+                return ERROR
 
     def visitEqual(self, ctx: YAPLParser.EqualContext):
         childrenNodes = [self.visit(i) for i in ctx.expression()]
-        # print("This are children on equal statement", childrenNodes)
         if childrenNodes[0] == childrenNodes[1]:
             return TYPE_BOOL
         else:
             self.errors.add_error(f"Invalid comparition {childrenNodes[0]} = {childrenNodes[1]} types missmatch", ctx.start.line)
             return ERROR
     
+    def visitMethodCall(self, ctx: YAPLParser.MethodCallContext):
+        # Check if exists class
+        childrenNodes = [self.visit(i) for i in ctx.expression()]
+        print("This are the children nodes in methodcall",ctx.OBJECTID().getText(), childrenNodes)
+        # name = ctx.TYPEID().geText()
+        # if name:
+        #     if self.types_table.exists(name):
+        #         method_name = ctx.OBJECTID().getText()
+                
+        #     else:
+        #         self.errors.add_error(f"Type {name} not defined in method call", ctx.start.line)
+        #         return ERROR
+        return super().visitMethodCall(ctx)
+
+    def visitOwnMethodCall(self, ctx: YAPLParser.OwnMethodCallContext):
+        name = ctx.OBJECTID().getText()
+        method = self.types_table.check_method(name)
+        if method:
+            return method["type"]
+        else:
+            self.errors.add_error(f"No method named {name} defined", ctx.start.line)
+            return ERROR
 
     def visitLessThan(self, ctx: YAPLParser.LessThanContext):
         childrenNodes = [self.visit(i) for i in ctx.expression()]
@@ -232,7 +266,13 @@ class CustomVisitor(YAPLVisitor):
         return TYPE_BOOL
     
     def visitNew(self, ctx: YAPLParser.NewContext):
-        return super().visitNew(ctx)
+        #Check if type exists
+        type_ = ctx.TYPEID().getText()
+        if self.types_table.exists(type_):
+            return type_
+        else:
+            self.errors.add_error(f"Type not defined: {type_} in new expression", ctx.start.line)
+            return ERROR
     
 
 if __name__ == "__main__":
@@ -255,7 +295,6 @@ if __name__ == "__main__":
 
     print(visitor.errors.get_errors())
 
-    print("This is stack\n", visitor.symbol_table.get_stack())
 
     # os.system(f"{JAVA_COM} {ANTLR} org.antlr.v4.Tool {ANTLR_FLAGS} -o {OUT_DIR} ./{GRAMMAR_NAME}/{GRAMMAR_NAME}.g4")
     # os.system(f"cd {OUT_DIR}/{GRAMMAR_NAME}; javac ./*.java; {JAVA_COM} {ANTLR}:{CLASSPATH} {G_PKG} {GRAMMAR_NAME} {START_RULE} ../../input/{file_name} {GRUN_FLAGS}")
