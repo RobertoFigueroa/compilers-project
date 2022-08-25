@@ -1,5 +1,5 @@
 class Factorial {
-  	var: Int <- 0;
+  	var: Int <- 1;
   	
   	factorial(n: Int) : Int {
       {( let f : Int in
@@ -29,7 +29,7 @@ class Main inherits IO {
     n: Int <- 10;
   	facto: Factorial;
   	fibo: Fibonacci;
-  
+	
   	main() : SELF_TYPE {
 	{
 	    facto <- new Factorial;

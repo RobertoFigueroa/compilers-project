@@ -79,6 +79,16 @@ class TypeTable(object):
         self.table.append(TypeElement(YAPL_BOOL["name_type"], YAPL_BOOL["inherits"], YAPL_BOOL["attrs"], YAPL_BOOL["methods"]))
         self.table.append(TypeElement(YAPL_SELF_TYPE["name_type"], YAPL_SELF_TYPE["inherits"], YAPL_SELF_TYPE["attrs"], YAPL_SELF_TYPE["methods"]))
 
+    def check_main(self):
+        class_ = False
+        method = False
+        for i in self.table:
+            if i.name_type == "Main":
+                class_ = True
+                if "main" in i.methods:
+                    method = True
+        
+        return (class_, method)
 
     def update_attributes(self, name:str, _type:str, belongs_to : str) -> None: # Attribute: {name: "", type:""}
         #TODO: check if exists
@@ -115,12 +125,65 @@ class TypeTable(object):
         else:
             return False
 
-    def check_method(self, method_name : str):
-        for i in self.table:
-            if i.exists_method(method_name):
-                return i.find_method(method_name)
-        return None
+    def check_method(self, method_name : str, current_class: str):
+        _class = self.get_element(current_class)
+        if _class:
+            if _class.find_method(method_name) != 'Error':
+                return _class.find_method(method_name)
+            else:
+                return self.check_inherit_method(method_name, current_class)
+        return "Error"
+        # for i in self.table:
+        #     if i.exists_method(method_name):
+        #         return i.find_method(method_name)
+        # return None
+    
+    def check_specific_method(self, method_name:str, current_class : str, exp_class : str):# Current class is typeid
+        _class = self.get_element(current_class)
+        print("For class", current_class)
+        if _class:
+            if self.has_parent(exp_class, current_class) == None:
+                return "Error1"
+            return _class.find_method(method_name)
+        return "Error2"
 
+    def check_inherit_method(self, method_name : str, current_class : str) -> dict:
+        _class = self.get_element(current_class)
+        found_method = False
+        inh = _class.inherits
+        while not found_method:
+            if inh == "Object":
+                obj = self.get_element("Object")
+                return obj.find_method(method_name)
+            e = self.get_element(inh)
+            method = e.find_method(method_name)
+            if method != "Error":
+                return method
+            inh = e.inherits
+        
+        
+
+    def has_parent(self, child : str, parent : str) -> (dict or None):
+        found_object_parent = False
+        print("Searching", child, parent)
+        c = child
+        p = self.get_element(c)
+        if not p:
+            return "Error"
+        if p.inherits == parent:
+            return self.get_element(parent)
+        while not found_object_parent:
+            element = self.get_element(p)
+            if not element:
+                return "Error"
+            inh = element.inherits
+            if inh == parent:
+                return element
+            c = p
+            p = element.inherits
+            if p == "Object":
+                found_object_parent = True
+        return None
 
     def get_table(self) -> str:
         pt = PrettyTable()
@@ -135,6 +198,9 @@ class Symbol:
     def __init__(self,name : str, _type : str) -> None:
         self.name = name
         self._type = _type
+    
+    def __repr__(self) -> str:
+        return self.name
         
     def __eq__(self, other: object) -> bool:
         if type(other) == str:
@@ -191,5 +257,5 @@ class SymbolTable:
         return False
 
     def __repr__(self) -> str:
-        return str(self._context)
+        return str(self.table)
     

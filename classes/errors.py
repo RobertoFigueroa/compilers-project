@@ -1,3 +1,6 @@
+from prettytable import PrettyTable
+
+
 class TypeAlreadyDefined(Exception):
     """Exception raised when trying to add an already defined type."""
 
@@ -26,9 +29,14 @@ class Errors:
 
     def add_error(self, msg : str, at : int = None) -> None:
         if at:
-            self.errors.append(msg + f" near to {at}")
+            self.errors.append(msg + f" near to line {at}")
         else:
             self.errors.append(msg)
 
     def get_errors(self) -> list:
-        return self.errors
+        pt = PrettyTable()
+        if len(self.errors) > 0:
+            pt.field_names = ["ID", "ERRORS"]
+            vals = [[i,j] for i,j in zip(range(1, len(self.errors)+1), self.errors)]
+            pt.add_rows(vals)
+        return pt
