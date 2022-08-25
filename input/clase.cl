@@ -33,16 +33,17 @@ class Div inherits Factorial {
 class SumSub inherits Div {
 
     sum(n: Int, o: Int) : Int {
-        n + o 
+        n + o
     };
 
     sub(n: Int, o: Int) : Int {
         n - o
     };
 
-    subError(n: Int, o: Int) : String {
-        n - o
-    };
+    --malreturn(n: Int, o: Int) : String {
+    --    n * o
+    --};
+    
 
 
 };
@@ -57,6 +58,7 @@ class Main inherits IO {
     a : Results;
     calc: Calculator;
     s: SumSub;
+    t : Int;
     main() : SELF_TYPE {
         {
             --PRUEBAS HERENCIA
@@ -71,8 +73,13 @@ class Main inherits IO {
             --x.set_res(1);
             --s.sumnoexiste(1,2);
 
+            --CAST
+            t <- true;
+            --t <- "prueba";
+
             --RETORNO
-            
+            --s.malreturn(1,2);
+
 
             --PROGRAMA NORMAL
             a.set_res(calc.mul(5,4));

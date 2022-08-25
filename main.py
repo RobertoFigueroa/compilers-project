@@ -185,7 +185,11 @@ class CustomVisitor(YAPLVisitor):
         # tparams["type"] = ctx.TYPEID().getText()
         
         # self.symbol_table.top().add_symbol(Symbol(ctx.OBJECTID().getText(), ctx.TYPEID().getText()))
-        _type = self.visit(ctx.expression())
+        _type = self.visit(ctx.expression()) # Type of return
+        if ctx.TYPEID().getText() == TYPE_STRING and _type == TYPE_INT:
+            self.errors.add_error(f"Erorr in function, type {ctx.TYPEID().getText()} expected but {_type} returned", ctx.start.line)
+        if ctx.TYPEID().getText() == TYPE_INT and _type == TYPE_BOOL:
+            self.errors.add_error(f"Erorr in function, type {ctx.TYPEID().getText()} expected but {_type} returned", ctx.start.line)
         if ctx.TYPEID().getText() == "SELF_TYPE":
             return _type
         if _type != ctx.TYPEID().getText():
@@ -202,7 +206,20 @@ class CustomVisitor(YAPLVisitor):
         right_side = self.visit(ctx.expression())
 
         if type_:
-            return type_
+            if type_ == right_side:
+                return type_
+            elif type_ == TYPE_BOOL and right_side == TYPE_INT:
+                return type_
+            elif type_ == TYPE_INT and right_side == TYPE_BOOL:
+                return type_
+            if type_ != right_side:
+                if self.types_table.has_parent(right_side, type_):
+                    return type_
+                else:
+                    self.errors.add_error(f"Error in assignment, missmatch types {type_} <-  {right_side} can't found inhertiance relation", ctx.start.line)
+            else:
+                self.errors.add_error(f"Error in assignment, missmatch types {type_} <-  {right_side}", ctx.start.line)
+        
         else:
             self.errors.add_error(f"Error in assignment, no variable {name} in the scope", ctx.start.line)
             return ERROR
@@ -232,11 +249,11 @@ class CustomVisitor(YAPLVisitor):
 
     def visitIf(self, ctx: YAPLParser.IfContext):
         childrenNodes = [self.visit(i) for i in ctx.expression()]
-        if childrenNodes[0] == TYPE_BOOL:
+        if childrenNodes[0] == TYPE_BOOL or childrenNodes[0] == TYPE_INT:
             if childrenNodes[1] == childrenNodes[2]:
                 return childrenNodes[1]
             else:
-                return OBJECT
+                return OBJECT        
         else:
             self.errors.add_error(f"Invalid expression on if statement {childrenNodes[0]} found, expected Bool type", ctx.start.line)
             return ERROR
@@ -442,7 +459,7 @@ class CustomVisitor(YAPLVisitor):
             return ERROR
     
 
-if __name__ == "__main__":
+def compile_cmd():
 
     file_name = input("Ingrese el nombre del programa YAPL >>")
     # TODO: Check if file exists
@@ -472,3 +489,33 @@ if __name__ == "__main__":
     # os.system(f"rm -r ./{OUT_DIR}")
     
 
+
+def compile_server(program : str, ):
+
+    data = InputStream(program)
+    lexer = YAPLLexer(data)
+    stream = CommonTokenStream(lexer)
+    parser = YAPLParser(stream)
+    tree = parser.program()
+    # from antlr4.tree.Trees import Trees
+    # print(Trees.toStringTree(tree, None, parser))
+    first_visitor = InitCustomVisitor()
+    first_visitor.visit(tree)
+
+    visitor = CustomVisitor()
+    visitor.types_table = first_visitor.types_table
+    output = visitor.visit(tree)
+
+    response = visitor.errors.dump()
+    response["table"] = visitor.types_table.dump()
+
+    return response
+    # print(visitor.types_table.get_table())
+    # print("------Errors------")
+    # print(visitor.errors.get_errors())
+
+
+    # os.system(f"{JAVA_COM} {ANTLR} org.antlr.v4.Tool {ANTLR_FLAGS} -o {OUT_DIR} ./{GRAMMAR_NAME}/{GRAMMAR_NAME}.g4")
+    # os.system(f"cd {OUT_DIR}/{GRAMMAR_NAME}; javac ./*.java; {JAVA_COM} {ANTLR}:{CLASSPATH} {G_PKG} {GRAMMAR_NAME} {START_RULE} ../../input/{file_name} {GRUN_FLAGS}")
+    # os.system(f"rm -r ./{OUT_DIR}")
+    

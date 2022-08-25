@@ -52,6 +52,14 @@ class TypeElement(object): #AKA a Class
             list(self.methods.keys())
         ]
 
+    def dump(self):
+        return {
+            "name_type" : self.name_type,
+            "inherits" : self.inherits,
+            "attributes" : self.attributes,
+            "methods" : self.methods
+        }
+
     def exists_method(self, method_name : str) -> bool:
         if method_name in self.methods.keys():
             return True
@@ -140,7 +148,6 @@ class TypeTable(object):
     
     def check_specific_method(self, method_name:str, current_class : str, exp_class : str):# Current class is typeid
         _class = self.get_element(current_class)
-        print("For class", current_class)
         if _class:
             if self.has_parent(exp_class, current_class) == None:
                 return "Error1"
@@ -165,7 +172,6 @@ class TypeTable(object):
 
     def has_parent(self, child : str, parent : str) -> (dict or None):
         found_object_parent = False
-        print("Searching", child, parent)
         c = child
         p = self.get_element(c)
         if not p:
@@ -192,6 +198,9 @@ class TypeTable(object):
             vals = [i.get_values() for i in self.table]
             pt.add_rows(vals)
         return pt
+
+    def dump(self) -> list:
+        return [i.dump() for i in self.table]
 
 class Symbol:
 

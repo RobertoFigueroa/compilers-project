@@ -26,10 +26,11 @@ class Errors:
 
     def __init__(self) -> None:
         self.errors = []
-
+        self.lines = []
     def add_error(self, msg : str, at : int = None) -> None:
         if at:
             self.errors.append(msg + f" near to line {at}")
+            self.lines.append(at)
         else:
             self.errors.append(msg)
 
@@ -40,3 +41,9 @@ class Errors:
             vals = [[i,j] for i,j in zip(range(1, len(self.errors)+1), self.errors)]
             pt.add_rows(vals)
         return pt
+
+    def dump(self) -> dict:
+        return {
+            "errors" : self.errors,
+            "lines" : self.lines
+        }
