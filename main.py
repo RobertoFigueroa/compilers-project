@@ -213,6 +213,12 @@ class CustomVisitor(YAPLVisitor):
             elif type_ == TYPE_INT and right_side == TYPE_BOOL:
                 return type_
             if type_ != right_side:
+                if type_ == TYPE_INT and right_side == TYPE_STRING:
+                    self.errors.add_error(f"Error in assignment, missmatch types {type_} <-  {right_side} can't found inhertiance relation", ctx.start.line)
+                    return ERROR
+                if type_ == TYPE_STRING and right_side == TYPE_INT:
+                    self.errors.add_error(f"Error in assignment, missmatch types {type_} <-  {right_side} can't found inhertiance relation", ctx.start.line)
+                    return ERROR
                 if self.types_table.has_parent(right_side, type_):
                     return type_
                 else:

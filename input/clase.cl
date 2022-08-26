@@ -61,8 +61,6 @@ class Main inherits IO {
     t : Int;
     main() : SELF_TYPE {
         {
-            --PRUEBAS HERENCIA
-            --s@Calculator.mul(2,1);
             
             --PRUEBAS PARAMS
             --a.set_res(calc.mul(5,"compiladores"));
