@@ -85,6 +85,8 @@ export const MyEditor = () => {
                     <h2>Console</h2>
                     <div className={styles.errorArea}>
                         {
+                            errors.length == 0 ?
+                            (<p style={{"color" : "green"}}>{"> Passed"}</p>) :
                             errors.map(e => (
                                 <p>{"> "}{e}</p>
                             ))
