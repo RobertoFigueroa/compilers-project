@@ -66,6 +66,18 @@ class CustomVisitor(YAPLVisitor):
         self.symbol_table = Stack()
         self.types_table = TypeTable(self.errors)
         self.class_def = None
+        self.bp = 0
+
+    def get_size(self, _type : str) -> int:
+        if _type == TYPE_INT:
+            return 4
+        elif _type == TYPE_BOOL:
+            return 2
+        elif _type == TYPE_STRING:
+            return 4
+        else:
+            return 6
+        
 
     def visitProgram(self, ctx: YAPLParser.ProgramContext):
         c, m = self.types_table.check_main()
@@ -118,7 +130,10 @@ class CustomVisitor(YAPLVisitor):
             self.errors.add_error("Expression Let must have at least one assigment", ctx.start.line)
         
         for i,t in zip(ids, types):
-            self.symbol_table.top().add_symbol(Symbol(i, t))
+            size = self.get_size(t)
+            self.bp = self.bp + size
+            self.symbol_table.top().add_symbol(Symbol(i, t, self.get_size(t), self.bp))
+            print(self.symbol_table.top().get_table())
         # print("This is last in expre child nodes in let", exprChildrenNodes[-1])
 
         return self.visit(ctx.expression()[-1])
@@ -150,7 +165,10 @@ class CustomVisitor(YAPLVisitor):
             else:
                 if expr != ctx.TYPEID().getText():
                     self.errors.add_error(f"Invalid assigment in property of class {self.class_def}, {ctx.TYPEID().getText()} type expected {expr} found", ctx.start.line)
-        self.symbol_table.top().add_symbol(Symbol(ctx.OBJECTID().getText(), ctx.TYPEID().getText()))
+        size = self.get_size(ctx.TYPEID().getText())
+        self.bp += size
+        self.symbol_table.top().add_symbol(Symbol(ctx.OBJECTID().getText(), ctx.TYPEID().getText(), size, self.bp))
+        print(self.symbol_table.top().get_table())
         return ctx.TYPEID().getText()
 
     def visitParentheses(self, ctx: YAPLParser.ParenthesesContext):
@@ -181,7 +199,10 @@ class CustomVisitor(YAPLVisitor):
 
         for i in params:
             # print("Adding", i.OBJECTID().getText(), i.TYPEID().getText())
-            self.symbol_table.top().add_symbol(Symbol(i.OBJECTID().getText(), i.TYPEID().getText()))
+            size = self.get_size(ctx.TYPEID().getText())
+            self.bp += size
+            self.symbol_table.top().add_symbol(Symbol(i.OBJECTID().getText(), i.TYPEID().getText(), size, self.bp))
+            print(self.symbol_table.top().get_table())
         # tparams["type"] = ctx.TYPEID().getText()
         
         # self.symbol_table.top().add_symbol(Symbol(ctx.OBJECTID().getText(), ctx.TYPEID().getText()))
@@ -488,7 +509,6 @@ def compile_cmd():
     print(visitor.types_table.get_table())
     print("------Errors------")
     print(visitor.errors.get_errors())
-
 
     # os.system(f"{JAVA_COM} {ANTLR} org.antlr.v4.Tool {ANTLR_FLAGS} -o {OUT_DIR} ./{GRAMMAR_NAME}/{GRAMMAR_NAME}.g4")
     # os.system(f"cd {OUT_DIR}/{GRAMMAR_NAME}; javac ./*.java; {JAVA_COM} {ANTLR}:{CLASSPATH} {G_PKG} {GRAMMAR_NAME} {START_RULE} ../../input/{file_name} {GRUN_FLAGS}")

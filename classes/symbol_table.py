@@ -204,12 +204,23 @@ class TypeTable(object):
 
 class Symbol:
 
-    def __init__(self,name : str, _type : str) -> None:
+    def __init__(self,name : str, _type : str, size = None, offset = None) -> None:
         self.name = name
         self._type = _type
+        self.size = size
+        self.offset = offset
+        self.cols = ["Name", "Type", "Size", "Offset"]
     
     def __repr__(self) -> str:
         return self.name
+
+    def get_values(self):
+        return [
+            self.name,
+            self._type,
+            self.size,
+            self.offset
+        ]
         
     def __eq__(self, other: object) -> bool:
         if type(other) == str:
@@ -268,3 +279,10 @@ class SymbolTable:
     def __repr__(self) -> str:
         return str(self.table)
     
+    def get_table(self) -> str:
+        pt = PrettyTable()
+        if len(self.table) > 0:
+            pt.field_names = self.table[0].cols
+            vals = [i.get_values() for i in self.table]
+            pt.add_rows(vals)
+        return pt
