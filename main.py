@@ -353,22 +353,22 @@ class CustomVisitor(YAPLVisitor):
         if childrenNodes[0] == TYPE_INT and childrenNodes[1] == TYPE_INT:
             # Check wich type of nodes are (value-nodes, id-nodes)
             # Search on symbol table
-            arg1 = None
-            arg2 = None
-            print(childrenNodes[1])
-            if childrenNodes[0].value.isnumeric():
-                arg1 = childrenNodes[0].value
-            else:
-                size, offset = self.get_var_size(childrenNodes[0].value)
-                arg1 = str(self.init_bp)+"x"+str(offset)
-            if childrenNodes[1].value.isnumeric():
-                arg2 = childrenNodes[1].value
-            else:
-                size, offset = self.get_var_size(childrenNodes[1].value)
-                arg2 = str(self.init_bp)+"x"+str(offset)
-            temp = self.get_temp_var()
-            self.int_code.add_instruction(arg1,arg2,"+", temp)
-            return ReturnNode(TYPE_INT, temp)
+            # arg1 = None
+            # arg2 = None
+            # print(childrenNodes[1])
+            # if childrenNodes[0].value.isnumeric():
+            #     arg1 = childrenNodes[0].value
+            # else:
+            #     size, offset = self.get_var_size(childrenNodes[0].value)
+            #     arg1 = str(self.init_bp)+"x"+str(offset)
+            # if childrenNodes[1].value.isnumeric():
+            #     arg2 = childrenNodes[1].value
+            # else:
+            #     size, offset = self.get_var_size(childrenNodes[1].value)
+            #     arg2 = str(self.init_bp)+"x"+str(offset)
+            # temp = self.get_temp_var()
+            # self.int_code.add_instruction(arg1,arg2,"+", temp)
+            return ReturnNode(TYPE_INT)
         else:
             self.errors.add_error(f"Invalid expression {childrenNodes[0]} + {childrenNodes[1]} types missmatch", ctx.start.line)
             return ReturnNode(ERROR)
@@ -376,24 +376,24 @@ class CustomVisitor(YAPLVisitor):
     def visitMinus(self, ctx: YAPLParser.MinusContext):
         childrenNodes = [self.visit(i) for i in ctx.expression()]
         if childrenNodes[0] == TYPE_INT and childrenNodes[1] == TYPE_INT:
-            # Check wich type of nodes are (value-nodes, id-nodes)
-            # Search on symbol table
-            arg1 = None
-            arg2 = None
-            print(childrenNodes[1].value)
-            if childrenNodes[0].value.isnumeric():
-                arg1 = childrenNodes[0].value
-            else:
-                size, offset = self.get_var_size(childrenNodes[0].value)
-                arg1 = str(self.init_bp)+"x"+str(offset)
-            if childrenNodes[1].value.isnumeric():
-                arg2 = childrenNodes[1].value
-            else:
-                size, offset = self.get_var_size(childrenNodes[1].value)
-                arg2 = str(self.init_bp)+"x"+str(offset)
-                temp = self.get_temp_var()
-            self.int_code.add_instruction(arg1,arg2,"-", temp)
-            return ReturnNode(TYPE_INT, temp)
+            # # Check wich type of nodes are (value-nodes, id-nodes)
+            # # Search on symbol table
+            # arg1 = None
+            # arg2 = None
+            # print(childrenNodes[1].value)
+            # if childrenNodes[0].value.isnumeric():
+            #     arg1 = childrenNodes[0].value
+            # else:
+            #     size, offset = self.get_var_size(childrenNodes[0].value)
+            #     arg1 = str(self.init_bp)+"x"+str(offset)
+            # if childrenNodes[1].value.isnumeric():
+            #     arg2 = childrenNodes[1].value
+            # else:
+            #     size, offset = self.get_var_size(childrenNodes[1].value)
+            #     arg2 = str(self.init_bp)+"x"+str(offset)
+            #     temp = self.get_temp_var()
+            # self.int_code.add_instruction(arg1,arg2,"-", temp)
+            return ReturnNode(TYPE_INT)
         else:
             self.errors.add_error(f"Invalid expression {childrenNodes[0]} - {childrenNodes[1]} types missmatch", ctx.start.line)
             return ReturnNode(ERROR)
