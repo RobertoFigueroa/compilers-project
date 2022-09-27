@@ -261,6 +261,11 @@ class SymbolTable:
             if i.name == name:
                 return i
 
+    def get_symbol_size(self, name:str) -> int:
+        for i in self.table:
+            if i.name == name:
+                return (i.size, i.offset)
+
     def get_symbol_type(self, name) -> str:
         for i in self.table:
             if i.name == name:

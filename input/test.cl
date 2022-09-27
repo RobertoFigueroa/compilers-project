@@ -3,6 +3,7 @@ class Main inherits IO {
     a : Int <- 1;
     b : Int <- 1;
     c : Int <- 1;
+    x : Int <- num - a;
 
     main() : SELF_TYPE {
 	{
