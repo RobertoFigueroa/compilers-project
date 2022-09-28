@@ -27,6 +27,7 @@ JAVA_COM = "java -Xmx500M -cp"
 PKG = "org.antlr.v4.Tool"
 G_PKG = "org.antlr.v4.gui.TestRig"
 CLASSPATH = ".:/usr/local/lib/antlr-4.10.1-complete.jar:.:/usr/local/lib/antlr-4.10.1-complete.jar:"
+
 #antlr4 -Dlanguage=Python3 YAPL/YAPL.g4 -visitor -o dist
 
 @dataclass
@@ -34,6 +35,7 @@ class ReturnNode:
     """Class for managing return values from nodes"""
     type : str
     value : str = None
+    instruction : IC = None
 
     def __repr__(self) -> str:
         return self.type
@@ -83,12 +85,6 @@ class CodeGenerator(YAPLVisitor):
         return
 
     def visitProgram(self, ctx: YAPLParser.ProgramContext):
-        c, m = self.types_table.check_main()
-        if not c:
-            self.errors.add_error("No Main class found")
-        if not m:
-            self.errors.add_error("No main method found")
-
         return super().visitProgram(ctx)
 
     def get_var_size(self, name : str) -> tuple:
@@ -149,15 +145,11 @@ class CodeGenerator(YAPLVisitor):
         self.symbol_table.push(SymbolTable(self.errors, 2))
         ids = [i.getText() for i in ctx.OBJECTID()]
         types = [i.getText() for i in ctx.TYPEID()]
-        if len(ids) == 0:
-            self.errors.add_error("Expression Let must have at least one assigment", ctx.start.line)
-        
+
         for i,t in zip(ids, types):
             size = self.get_size(t)
             self.update_bp(size)
             self.symbol_table.top().add_symbol(Symbol(i, t, self.get_size(t), self.bp))
-            print(self.symbol_table.top().get_table())
-        # print("This is last in expre child nodes in let", exprChildrenNodes[-1])
 
         return ReturnNode(self.visit(ctx.expression()[-1]))
 
@@ -165,31 +157,12 @@ class CodeGenerator(YAPLVisitor):
         self.class_def = ctx.TYPEID()[0].getText()
         self.symbol_table.clear()
         self.symbol_table.push(SymbolTable(self.errors, 0))
-        # if self.symbol_table.is_empty():
-        #     self.symbol_table.push(SymbolTable(self.error, 0))
-        # else:
-        #     _exit = False
-        #     while not self.symbol_table.is_empty() or _exit:
-        #         sym_table = self.symbol_table.pop()
-        #         if sym_table.context == 0:
-        #             _exit = True
-        
         return super().visitClassDefine(ctx)  
 
     def visitProperty(self, ctx: YAPLParser.PropertyContext): # Attributes of a class
-        if ctx.expression():
-            expr = self.visit(ctx.expression())
-            if type(expr) == list:
-                childNode = [self.visit(i) for i in expr]
-                if childNode[0] != ctx.TYPEID().getText():
-                    self.errors.add_error(f"Invalid assigment in property of class {self.class_def}, {ctx.TYPEID().getText()} type expected {childNode[0]} found", ctx.start.line)
-            else:
-                if expr != ctx.TYPEID().getText():
-                    self.errors.add_error(f"Invalid assigment in property of class {self.class_def}, {ctx.TYPEID().getText()} type expected {expr} found", ctx.start.line)
         size = self.get_size(ctx.TYPEID().getText())
         self.update_bp(size)
         self.symbol_table.top().add_symbol(Symbol(ctx.OBJECTID().getText(), ctx.TYPEID().getText(), size, self.bp))
-        print(self.symbol_table.top().get_table())
         return ReturnNode(ctx.TYPEID().getText())
 
     def visitParentheses(self, ctx: YAPLParser.ParenthesesContext):
@@ -201,44 +174,14 @@ class CodeGenerator(YAPLVisitor):
         #return self.visit(ctx.expression()[-1])
     
     def visitMethod(self, ctx: YAPLParser.MethodContext): # Function within a class
-        if self.symbol_table.is_empty():
-            self.errors.add_error(f"Function declaration out of a parent class {ctx.OBJECTID().getText()}", ctx.start.line)
-        if self.symbol_table.top()._context == 0: # Means is the first method found in class
-            self.symbol_table.push(SymbolTable(self.errors, 1))
-        else:
-            class_found = True
-            while self.symbol_table.is_empty() or class_found:
-                sym_table = self.symbol_table.pop()
-                if sym_table._context == 0: # Means it found parent class
-                    class_found = not class_found
-                    self.symbol_table.push(sym_table)
-                    self.symbol_table.push(SymbolTable(self.errors, 1))
-            if self.symbol_table.is_empty():
-                print("Fatal error, parent class not found")
-                self.symbol_table.push(SymbolTable(self.errors, 1))
         params = ctx.formal()
-
         for i in params:
-            #print("Adding", i.OBJECTID().getText(), i.TYPEID().getText())
             size = self.get_size(ctx.TYPEID().getText())
-            # print("bp is ", self.bp)
             self.update_bp(size)
             self.symbol_table.top().add_symbol(Symbol(i.OBJECTID().getText(), i.TYPEID().getText(), size, self.bp))
             print(self.symbol_table.top().get_table())
-        # tparams["type"] = ctx.TYPEID().getText()
         
-        # self.symbol_table.top().add_symbol(Symbol(ctx.OBJECTID().getText(), ctx.TYPEID().getText()))
         _type = self.visit(ctx.expression()) # Type of return
-        if ctx.TYPEID().getText() == TYPE_STRING and _type == TYPE_INT:
-            self.errors.add_error(f"Erorr in function, type {ctx.TYPEID().getText()} expected but {_type} returned", ctx.start.line)
-        if ctx.TYPEID().getText() == TYPE_INT and _type == TYPE_BOOL:
-            self.errors.add_error(f"Erorr in function, type {ctx.TYPEID().getText()} expected but {_type} returned", ctx.start.line)
-        if ctx.TYPEID().getText() == "SELF_TYPE":
-            return ReturnNode(_type)
-        if _type != ctx.TYPEID().getText():
-            if self.types_table.has_parent(_type, ctx.TYPEID().getText()):
-                return ReturnNode(ctx.TYPEID().getText())
-            self.errors.add_error(f"Erorr in function, type {ctx.TYPEID().getText()} expected but {_type} returned", ctx.start.line)
         return ReturnNode(_type)
 
 
@@ -247,39 +190,10 @@ class CodeGenerator(YAPLVisitor):
         # Check if exists in scope
         type_ = self.exists_local_global_scope(name)
         right_side = self.visit(ctx.expression())
-
-        if type_:
-            if type_ == right_side:
-                return ReturnNode(type_)
-            elif type_ == TYPE_BOOL and right_side == TYPE_INT:
-                return ReturnNode(type_)
-            elif type_ == TYPE_INT and right_side == TYPE_BOOL:
-                return ReturnNode(type_)
-            if type_ != right_side:
-                if type_ == TYPE_INT and right_side == TYPE_STRING:
-                    self.errors.add_error(f"Error in assignment, missmatch types {type_} <-  {right_side} can't found inhertiance relation", ctx.start.line)
-                    return ReturnNode(ERROR)
-                if type_ == TYPE_STRING and right_side == TYPE_INT:
-                    self.errors.add_error(f"Error in assignment, missmatch types {type_} <-  {right_side} can't found inhertiance relation", ctx.start.line)
-                    return ReturnNode(ERROR)
-                if self.types_table.has_parent(right_side, type_):
-                    return ReturnNode(type_)
-                else:
-                    self.errors.add_error(f"Error in assignment, missmatch types {type_} <-  {right_side} can't found inhertiance relation", ctx.start.line)
-            else:
-                self.errors.add_error(f"Error in assignment, missmatch types {type_} <-  {right_side}", ctx.start.line)
-        
-        else:
-            self.errors.add_error(f"Error in assignment, no variable {name} in the scope", ctx.start.line)
-            return ReturnNode(ERROR)
+        return ReturnNode(type_)
     
     def visitId(self, ctx: YAPLParser.IdContext):
         value = ctx.OBJECTID().getText()
-        # Check if exists in local context
-        # if self.symbol_table.top().exists(value): 
-        #     return self.symbol_table.top().get_symbol_type(value)
-        # # Check in global context
-
         if value == "self":
             return ReturnNode(self.class_def)
 
@@ -312,23 +226,6 @@ class CodeGenerator(YAPLVisitor):
     def visitAdd(self, ctx: YAPLParser.AddContext):
         childrenNodes = [self.visit(i) for i in ctx.expression()]
         if childrenNodes[0] == TYPE_INT and childrenNodes[1] == TYPE_INT:
-            # Check wich type of nodes are (value-nodes, id-nodes)
-            # Search on symbol table
-            # arg1 = None
-            # arg2 = None
-            # print(childrenNodes[1])
-            # if childrenNodes[0].value.isnumeric():
-            #     arg1 = childrenNodes[0].value
-            # else:
-            #     size, offset = self.get_var_size(childrenNodes[0].value)
-            #     arg1 = str(self.init_bp)+"x"+str(offset)
-            # if childrenNodes[1].value.isnumeric():
-            #     arg2 = childrenNodes[1].value
-            # else:
-            #     size, offset = self.get_var_size(childrenNodes[1].value)
-            #     arg2 = str(self.init_bp)+"x"+str(offset)
-            # temp = self.get_temp_var()
-            # self.int_code.add_instruction(arg1,arg2,"+", temp)
             return ReturnNode(TYPE_INT)
         else:
             self.errors.add_error(f"Invalid expression {childrenNodes[0]} + {childrenNodes[1]} types missmatch", ctx.start.line)
@@ -337,23 +234,6 @@ class CodeGenerator(YAPLVisitor):
     def visitMinus(self, ctx: YAPLParser.MinusContext):
         childrenNodes = [self.visit(i) for i in ctx.expression()]
         if childrenNodes[0] == TYPE_INT and childrenNodes[1] == TYPE_INT:
-            # # Check wich type of nodes are (value-nodes, id-nodes)
-            # # Search on symbol table
-            # arg1 = None
-            # arg2 = None
-            # print(childrenNodes[1].value)
-            # if childrenNodes[0].value.isnumeric():
-            #     arg1 = childrenNodes[0].value
-            # else:
-            #     size, offset = self.get_var_size(childrenNodes[0].value)
-            #     arg1 = str(self.init_bp)+"x"+str(offset)
-            # if childrenNodes[1].value.isnumeric():
-            #     arg2 = childrenNodes[1].value
-            # else:
-            #     size, offset = self.get_var_size(childrenNodes[1].value)
-            #     arg2 = str(self.init_bp)+"x"+str(offset)
-            #     temp = self.get_temp_var()
-            # self.int_code.add_instruction(arg1,arg2,"-", temp)
             return ReturnNode(TYPE_INT)
         else:
             self.errors.add_error(f"Invalid expression {childrenNodes[0]} - {childrenNodes[1]} types missmatch", ctx.start.line)
@@ -401,7 +281,6 @@ class CodeGenerator(YAPLVisitor):
         else:
             if expr == TYPE_INT:
                 return ReturnNode(TYPE_INT)
-                return TYPE_INT
             else:
                 self.errors.add_error(f"Invalid expression ~{expr} types missmatch", ctx.start.line)
                 return ReturnNode(ERROR)
@@ -446,7 +325,6 @@ class CodeGenerator(YAPLVisitor):
                 if m["type"] == "SELF_TYPE":
                         return ReturnNode(curr_class)
                 return ReturnNode(m["type"])
-                return m["type"]
                 
         else:
             curr_class = childrenNodes[0]
@@ -515,6 +393,9 @@ class CodeGenerator(YAPLVisitor):
             self.errors.add_error(f"Invalid comparition {childrenNodes[0]} <= {childrenNodes[1]} types missmatch", ctx.start.line)
             return ReturnNode(ERROR)
 
+    def visitNew(self, ctx: YAPLParser.NewContext):
+        return super().visitNew(ctx)
+
     def visitInt(self, ctx: YAPLParser.IntContext):
         return ReturnNode(TYPE_INT, ctx.getText())
     
@@ -522,13 +403,10 @@ class CodeGenerator(YAPLVisitor):
         return ReturnNode(TYPE_STRING, ctx.getText())
 
     def visitTrue(self, ctx: YAPLParser.TrueContext):
-        return ReturnNode(TYPE_BOOL)
+        return ReturnNode(TYPE_BOOL, ctx.getText())
     
     def visitFalse(self, ctx: YAPLParser.FalseContext):
-        return ReturnNode(TYPE_BOOL)
-
-    def visitNew(self, ctx: YAPLParser.NewContext):
-        return super().visitNew(ctx)
+        return ReturnNode(TYPE_BOOL, ctx.getText())
 
 
 
