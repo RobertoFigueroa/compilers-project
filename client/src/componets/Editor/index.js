@@ -15,6 +15,7 @@ export const MyEditor = () => {
     const [lines, changeLines] = useState([]);
     const [text, changeText] = useState("");
     const [table, changeTable] = useState([]);
+    const [ic, changeIC] = useState([]);
 
     const handleCompile = () => {
         axios.post(`${URL}/compile`,
@@ -25,6 +26,7 @@ export const MyEditor = () => {
                 changeErrors(response.data.errors);
                 changeLines(response.data.lines);
                 changeTable(response.data.table);
+                changeIC(response.data.ic);
             })
             .catch(error => {
                 console.log("Error while compiling", error)
@@ -89,6 +91,19 @@ export const MyEditor = () => {
                             (<p style={{"color" : "green"}}>{"> Passed"}</p>) :
                             errors.map(e => (
                                 <p>{"> "}{e}</p>
+                            ))
+                        }
+                    </div>
+                </div>
+
+                <div className={styles.errors}>
+                    <h2>Int. Code</h2>
+                    <div className={styles.errorArea}>
+                        {
+                            ic.length == 0 ?
+                            (<p style={{"color" : "green"}}>{"---"}</p>) :
+                            ic.map(e => (
+                                <p>{" "}{e.arg1}, {e.arg2}, {e.op}, {e.result}</p>
                             ))
                         }
                     </div>

@@ -4,6 +4,13 @@ from classes.YAPLDefs import *
 from dist.YAPL.YAPLVisitor import YAPLVisitor
 from classes.errors import Errors
 
+
+TYPE_INT = "Int"
+TYPE_BOOL = "Bool"
+TYPE_STRING = "String"
+OBJECT = "Object"
+ERROR = "Error"
+
 """
 La tabla de tipos tendrá la siguiente estructura:
     NAME_TYPE | INHERTS | ATTRS | METHODS
@@ -22,12 +29,14 @@ almacenarán la siguiente información:
 
 class TypeElement(object): #AKA a Class
 
-    def __init__(self, name_type, inherits="Object", attrs = None, methods=None) -> None:
-        self.cols = ["name", "inherits", "attrs", "methods"]
+    def __init__(self, name_type, inherits="Object", attrs = None, methods=None, size=0, offset=0) -> None:
+        self.cols = ["name", "inherits", "attrs", "methods", "size", "offset"]
         self.name_type = name_type # ""
         self.inherits = inherits # ""
         self.attributes = attrs if attrs else dict() # {name : type}
         self.methods = methods if methods else dict() # {methodName : {"type":"", "params":[]}}
+        self.size = size
+        self.offset = offset
 
     def add_attribute(self, attr_name : str, _type : str, parent : str):
         if not attr_name in list(self.attributes.keys()):
@@ -49,7 +58,9 @@ class TypeElement(object): #AKA a Class
             self.name_type,
             self.inherits,
             self.attributes,
-            list(self.methods.keys())
+            list(self.methods.keys()),
+            self.size,
+            self.offset
         ]
 
     def dump(self):
@@ -57,7 +68,9 @@ class TypeElement(object): #AKA a Class
             "name_type" : self.name_type,
             "inherits" : self.inherits,
             "attributes" : self.attributes,
-            "methods" : self.methods
+            "methods" : self.methods,
+            "size" : self.size,
+            "offset" : self.offset
         }
 
     def exists_method(self, method_name : str) -> bool:
@@ -98,12 +111,22 @@ class TypeTable(object):
         
         return (class_, method)
 
+    def get_size(self, _type : str) -> int:
+        if _type == TYPE_INT:
+            return 4
+        elif _type == TYPE_BOOL:
+            return 2
+        elif _type == TYPE_STRING:
+            return 4
+        else:
+            return 6
     def update_attributes(self, name:str, _type:str, belongs_to : str) -> None: # Attribute: {name: "", type:""}
         #TODO: check if exists
         for i in self.table:
             if i.name_type == belongs_to:
                 i.add_attribute(name, _type, belongs_to)
-
+                i.size = i.size + self.get_size(_type)
+                i.offset = 0
 
     def get_element(self, name : str):
         for i in self.table:

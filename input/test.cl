@@ -8,7 +8,7 @@ class Main inherits IO {
     main() : SELF_TYPE {
 	{
         a <- b + c; 
-        c <- ~b;
+        --c <- ~b;
         if a=2 then b<-2 else c<-55 fi;
 	}
     };

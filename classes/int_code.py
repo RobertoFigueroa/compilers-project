@@ -4,10 +4,10 @@ from dataclasses import dataclass
 
 @dataclass
 class Quadruple:
-    arg1 : str
-    arg2 : str = None
-    result : str = None
-    op : str = None
+    arg1 : str = ""
+    arg2 : str = ""
+    result : str = ""
+    op : str = ""
 
     def get_value(self):
         return [
@@ -16,6 +16,17 @@ class Quadruple:
             self.arg2,
             self.result
         ]
+
+    def get_text(self):
+        return self.op + self.result + self.arg1 + self.arg2 
+
+    def dump(self):
+        return {
+            "arg1": self.arg1,
+            "arg2" : self.arg2,
+            "op" : self.op,
+            "result" : self.result
+        }
 
 class IC:
 
@@ -35,5 +46,11 @@ class IC:
             pt.add_rows(vals)
         return pt
 
+    def concat(self, ic_code):
+        for q in ic_code.table:
+            self.table.append(q)
+
+    def dump(self):
+        return [i.dump() for i in self.table]
 
 
